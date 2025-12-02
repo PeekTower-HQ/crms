@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Globe, FileCheck, Shield } from "lucide-react";
+import { ParticleBackground } from "./ParticleBackground";
 
 const trustBadges = [
   { icon: Globe, label: "SDG 16 Aligned", color: "bg-green-100 text-green-700" },
@@ -15,7 +16,10 @@ const trustBadges = [
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 to-white pt-28 pb-20 md:pt-36 md:pb-28 lg:pt-40 lg:pb-32">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Floating particles background */}
+      <ParticleBackground variant="light" particleCount={20} />
+
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
           {/* Content */}
           <div className="text-center lg:text-left">

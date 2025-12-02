@@ -170,3 +170,45 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Particle floating animation with cursor attraction */
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(
+      calc((var(--mouse-x, 0.5) - var(--particle-x, 0.5)) * 30px),
+      calc((var(--mouse-y, 0.5) - var(--particle-y, 0.5)) * 30px)
+    );
+  }
+  25% {
+    transform: translate(
+      calc((var(--mouse-x, 0.5) - var(--particle-x, 0.5)) * 30px + 10px),
+      calc((var(--mouse-y, 0.5) - var(--particle-y, 0.5)) * 30px - 15px)
+    );
+  }
+  50% {
+    transform: translate(
+      calc((var(--mouse-x, 0.5) - var(--particle-x, 0.5)) * 30px - 5px),
+      calc((var(--mouse-y, 0.5) - var(--particle-y, 0.5)) * 30px - 20px)
+    );
+  }
+  75% {
+    transform: translate(
+      calc((var(--mouse-x, 0.5) - var(--particle-x, 0.5)) * 30px - 15px),
+      calc((var(--mouse-y, 0.5) - var(--particle-y, 0.5)) * 30px - 10px)
+    );
+  }
+}
+
+.particle-float {
+  animation: particleFloat linear infinite;
+  will-change: transform;
+  transition: transform 0.3s ease-out;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .particle-float {
+    animation: none;
+    transform: none;
+  }
+}

@@ -11,3 +11,4 @@ export { SecuritySection } from "./SecuritySection";
 export { FAQSection } from "./FAQSection";
 export { CTASection } from "./CTASection";
 export { LandingFooter } from "./LandingFooter";
+export { ParticleBackground } from "./ParticleBackground";

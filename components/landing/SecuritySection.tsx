@@ -4,6 +4,7 @@ import { Shield, Lock, FileCheck, Eye, Database, Key } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useInView } from "./hooks/useInView";
 import { cn } from "@/lib/utils";
+import { ParticleBackground } from "./ParticleBackground";
 
 const securityFeatures = [
   {
@@ -50,11 +51,14 @@ export function SecuritySection() {
 
   return (
     <section id="security" className="py-20 md:py-28 lg:py-32 bg-gray-900 text-white relative overflow-hidden">
+      {/* Floating particles background */}
+      <ParticleBackground variant="dark" particleCount={25} />
+
       {/* Background gradient orbs for depth */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
 
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 md:mb-20">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-xl bg-blue-700 mb-8 shadow-lg shadow-blue-700/30">
