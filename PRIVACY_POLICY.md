@@ -514,7 +514,7 @@ CRMS is an **open-source system** (MIT License), meaning:
 
 ### 13.1 Code Transparency
 
-- **Public Repository:** https://github.com/african-digital-goods/crms
+- **Public Repository:** https://github.com/PeekTower-HQ/crms
 - **Auditable Code:** Anyone can inspect security and privacy implementations
 - **Community Review:** Security researchers can identify vulnerabilities
 - **No Hidden Backdoors:** All code is publicly visible
@@ -589,7 +589,7 @@ Each country must provide DPO contact information specific to their deployment.
 
 **For questions about CRMS:**
 - **Website:** https://crms-africa.org
-- **GitHub:** https://github.com/african-digital-goods/crms
+- **GitHub:** https://github.com/PeekTower-HQ/crms
 - **Email:** info@crms-africa.org
 
 ### 15.4 Supervisory Authority

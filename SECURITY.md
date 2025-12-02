@@ -272,8 +272,8 @@ We will update this section as these features are implemented.
 
 Security updates are released as patch versions (e.g., 1.0.1) and announced via:
 
-1. **GitHub Security Advisories** - https://github.com/african-digital-goods/crms/security/advisories
-2. **Release Notes** - https://github.com/african-digital-goods/crms/releases
+1. **GitHub Security Advisories** - https://github.com/PeekTower-HQ/crms/security/advisories
+2. **Release Notes** - https://github.com/PeekTower-HQ/crms/releases
 3. **Email Notifications** - Subscribe at security@crms-africa.org
 
 **Critical vulnerabilities** are patched within 7 days and announced immediately.

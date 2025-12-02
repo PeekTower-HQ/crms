@@ -7,7 +7,7 @@ As a Pan-African Digital Public Good, CRMS benefits from contributions across th
 
 ### Reporting Bugs
 
-1. **Check existing issues** in [Issues](https://github.com/african-digital-goods/crms/issues)
+1. **Check existing issues** in [Issues](https://github.com/PeekTower-HQ/crms/issues)
 2. If not found, **create a new issue** with:
    - Clear, descriptive title
    - Steps to reproduce the bug
@@ -45,7 +45,7 @@ As a Pan-African Digital Public Good, CRMS benefits from contributions across th
 
 ### Suggesting Features
 
-1. **Check existing discussions** in [Discussions](https://github.com/african-digital-goods/crms/discussions)
+1. **Check existing discussions** in [Discussions](https://github.com/PeekTower-HQ/crms/discussions)
 2. Create a **new discussion** in the "Ideas" category with:
    - Use case and problem it solves
    - Proposed solution
@@ -66,7 +66,7 @@ As a Pan-African Digital Public Good, CRMS benefits from contributions across th
 ```bash
 git clone https://github.com/YOUR_USERNAME/crms.git
 cd crms
-git remote add upstream https://github.com/african-digital-goods/crms.git
+git remote add upstream https://github.com/PeekTower-HQ/crms.git
 ```
 
 #### 2. Create a Feature Branch
@@ -157,7 +157,7 @@ git push origin feature/your-feature-name
 
 #### 7. Create a Pull Request
 
-Go to https://github.com/african-digital-goods/crms/pulls and create a PR with:
+Go to https://github.com/PeekTower-HQ/crms/pulls and create a PR with:
 
 **PR Title:** Follow conventional commit format
 ```
@@ -234,7 +234,7 @@ git clone https://github.com/YOUR_USERNAME/crms.git
 cd crms
 
 # Add upstream remote
-git remote add upstream https://github.com/african-digital-goods/crms.git
+git remote add upstream https://github.com/PeekTower-HQ/crms.git
 
 # Install dependencies
 npm install
@@ -497,7 +497,7 @@ Contributors are recognized in:
 
 ## 📞 Questions?
 
-- **GitHub Discussions** - https://github.com/african-digital-goods/crms/discussions
+- **GitHub Discussions** - https://github.com/PeekTower-HQ/crms/discussions
 - **Email** - dev@crms-africa.org
 - **Documentation** - See `docs/` folder
 

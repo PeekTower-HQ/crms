@@ -15,6 +15,7 @@ import { getToken } from "next-auth/jwt";
  * Public routes that don't require authentication
  */
 const PUBLIC_ROUTES = [
+  "/", // Landing page
   "/login",
   "/api/auth",
   "/api/ussd", // USSD endpoints for feature phones
@@ -25,13 +26,26 @@ const PUBLIC_ROUTES = [
   "/favicon.ico",
   "/_next",
   "/api/health", // Health check endpoint
+  "/docs", // Documentation (if public)
+  "/offline", // Offline fallback page
+  "/sample_screens", // Screenshots for landing page
 ];
+
+/**
+ * Routes that require exact match (not prefix match)
+ */
+const EXACT_MATCH_ROUTES = ["/"];
 
 /**
  * Check if a route is public
  */
 function isPublicRoute(pathname: string): boolean {
-  return PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+  // Check exact matches first
+  if (EXACT_MATCH_ROUTES.includes(pathname)) {
+    return true;
+  }
+  // Then check prefix matches (excluding "/" which would match everything)
+  return PUBLIC_ROUTES.filter(route => route !== "/").some((route) => pathname.startsWith(route));
 }
 
 /**

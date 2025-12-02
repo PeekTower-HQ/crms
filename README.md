@@ -3,15 +3,18 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DPG](https://img.shields.io/badge/Digital%20Public%20Good-Candidate-blue)](https://digitalpublicgoods.net)
 [![SDG 16](https://img.shields.io/badge/SDG-16%20Peace%20%26%20Justice-green)](https://sdgs.un.org/goals/goal16)
-[![Pan-African](https://img.shields.io/badge/Scope-Pan--African-orange)](https://github.com/african-digital-goods/crms)
+[![Pan-African](https://img.shields.io/badge/Scope-Pan--African-orange)](https://github.com/PeekTower-HQ/crms)
+[![Development Status](https://img.shields.io/badge/Status-Production--Ready%20(Pre--Pilot)-blue)](https://github.com/PeekTower-HQ/crms)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
 [![Prisma](https://img.shields.io/badge/Prisma-Latest-2D3748)](https://www.prisma.io)
 
-A **Pan-African Digital Public Good** for managing criminal records across the African continent, with offline-first architecture for limited internet connectivity. **Pilot implementation:** Sierra Leone Police Force.
+A **Pan-African Digital Public Good** for managing criminal records across the African continent, with offline-first architecture for limited internet connectivity. **Production-ready and prepared for pilot deployment** in Sierra Leone Police Force and other African countries.
 
 ---
 
 ## 📸 Screenshots
+
+*Note: Screenshots show development environment. System is production-ready and prepared for deployment.*
 
 ### Main Dashboard
 ![CRMS Dashboard](sample_screens/Dashboard.png)
@@ -25,7 +28,7 @@ A **Pan-African Digital Public Good** for managing criminal records across the A
 
 ## 🌍 About
 
-CRMS is a **reusable, configurable open-source platform** designed for law enforcement agencies across Africa. With its pilot in Sierra Leone, CRMS can be deployed in any African country with configuration-based customization (no code forking required).
+CRMS is a **reusable, configurable open-source platform** designed for law enforcement agencies across Africa. Production-ready and prepared for pilot deployment in Sierra Leone, CRMS can be deployed in any African country with configuration-based customization (no code forking required).
 
 ### Key Features
 
@@ -179,7 +182,7 @@ CRMS is designed as a **public good** to empower law enforcement agencies across
 
 ```bash
 # Clone repository
-git clone https://github.com/african-digital-goods/crms.git
+git clone https://github.com/PeekTower-HQ/crms.git
 cd crms
 
 # Install dependencies
@@ -356,7 +359,7 @@ The MIT License enables:
 
 ## 🙏 Acknowledgments
 
-- **Pilot Implementation**: Sierra Leone Police Force
+- **Prepared for Pilot**: Sierra Leone Police Force (production-ready, awaiting deployment approval)
 - **Supported by**: Digital Public Goods Alliance
 - **Technology Partners**: [Your partners]
 - **Funding**: [Your funders]
@@ -366,9 +369,9 @@ The MIT License enables:
 ## 📞 Contact & Support
 
 - **Website**: [https://crms-africa.org](https://crms-africa.org)
-- **GitHub**: [https://github.com/african-digital-goods/crms](https://github.com/african-digital-goods/crms)
-- **Issues**: [GitHub Issues](https://github.com/african-digital-goods/crms/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/african-digital-goods/crms/discussions)
+- **GitHub**: [https://github.com/PeekTower-HQ/crms](https://github.com/PeekTower-HQ/crms)
+- **Issues**: [GitHub Issues](https://github.com/PeekTower-HQ/crms/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/PeekTower-HQ/crms/discussions)
 - **Email**: [support@crms-africa.org](mailto:support@crms-africa.org)
 
 ### Deployment Assistance
@@ -387,45 +390,49 @@ If you find this project useful, please give us a star ⭐ to help others discov
 
 | Phase | Status | Description |
 |-------|--------|-------------|
-| Phase 1 | 🚧 In Progress | Foundation & DPG Compliance Setup |
-| Phase 2 | ⏳ Planned | Authentication & RBAC System |
-| Phase 3 | ⏳ Planned | Offline-First Architecture |
-| Phase 4 | ⏳ Planned | Case, Person, Evidence Management |
-| Phase 5 | ⏳ Planned | Audit Logging & Security |
-| Phase 6 | ⏳ Planned | Background Checks & Alerts |
-| Phase 7 | ⏳ Planned | USSD Integration |
-| Phase 8 | ⏳ Planned | Dashboards & Reporting |
-| Phase 9 | ⏳ Planned | PWA Optimization |
-| Phase 10 | ⏳ Planned | MFA Implementation |
-| Phase 11 | ⏳ Planned | Testing & QA |
-| Phase 12 | ⏳ Planned | DPG Submission & Deployment |
+| Phase 1 | ✅ Complete | Foundation & DPG Compliance Setup |
+| Phase 2 | ✅ Complete | Authentication & RBAC System |
+| Phase 3 | ✅ Complete | Offline-First Architecture |
+| Phase 4 | ✅ Complete | Case, Person, Evidence Management |
+| Phase 5 | ✅ Complete | Audit Logging & Security |
+| Phase 6 | ✅ Complete | Background Checks & Alerts |
+| Phase 7 | ✅ Complete | USSD Integration |
+| Phase 8 | ✅ Complete | Dashboards & Reporting |
+| Phase 9 | ✅ Complete | PWA Optimization |
+| Phase 10 | ✅ Complete | MFA Implementation |
+| Phase 11 | ✅ Complete | Testing & QA (144+ test cases) |
+| Phase 12 | 🚧 Current Phase | DPG Submission & Multi-Country Deployment Coordination |
 
-**Expected Completion**: June 2025 (26 weeks from start)
+**Development Status**: 11/12 phases complete (91%) - Production-ready
+**Current Focus**: DPG Accelerator application and pilot partnership building
 
 ---
 
 ## 🛣️ Roadmap
 
-### Short-term (Q1-Q2 2025)
+See [ROADMAP.md](ROADMAP.md) for detailed timeline and milestones.
 
-- ✅ Complete Phase 1 (Foundation)
-- 🚧 Implement authentication system
-- 🚧 Build core case management features
-- 🚧 Deploy pilot in Sierra Leone
+### Current Phase: DPG Submission & Partnership Building (Q4 2025)
 
-### Medium-term (Q3-Q4 2025)
+- ✅ Development complete (11/12 phases, 91%)
+- ✅ Comprehensive testing (144+ test cases)
+- ✅ Documentation complete (200,000+ words)
+- 🚧 DPG Accelerator application
+- ⏳ Secure pilot country partnerships
 
-- 📋 USSD integration for background checks
-- 📋 Mobile PWA optimization
-- 📋 Multi-language support (French, Portuguese)
-- 📋 Submit to Digital Public Goods Alliance
+### Next Phase: First Pilot Deployments (Q2-Q3 2026, pending approval)
 
-### Long-term (2026+)
+- ⏳ Sierra Leone Police Force (50+ stations, 500+ officers)
+- ⏳ Additional pilot country (Ghana/Nigeria)
+- ⏳ Deploy within 90 days of partnership confirmation
+- ⏳ Measure SDG 16 impact (10,000+ cases, 50,000+ background checks)
 
-- 📋 Expand to 5+ African countries
-- 📋 Regional interoperability (ECOWAS, SADC)
-- 📋 AI-powered case insights
-- 📋 Integration with INTERPOL systems
+### Future: Multi-Country Scale (2027+)
+
+- 📋 5+ countries operational
+- 📋 Regional interoperability (ECOWAS, SADC, EAC)
+- 📋 1,000+ stations across Africa
+- 📋 Continental security cooperation
 
 ---
 

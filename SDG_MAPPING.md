@@ -128,15 +128,15 @@ The Criminal Record Management System (CRMS) is designed as a **Pan-African Digi
 
 | Indicator | Baseline (2025) | Year 1 Target | Year 3 Target |
 |-----------|----------------|---------------|---------------|
-| **Cases Digitized** | 0 | 10,000+ | 100,000+ |
-| **Background Checks Processed** | 0 | 50,000+ | 200,000+ annually |
-| **Police Stations Deployed** | 0 | 50+ (Sierra Leone) | 500+ (5+ countries) |
-| **Officers Trained** | 0 | 500+ | 5,000+ |
-| **System Uptime** | - | 99.5% | 99.9% |
-| **Citizen USSD Users** | 0 | 100,000+ | 1,000,000+ |
-| **Countries Deployed** | 0 (pilot) | 1 (Sierra Leone) | 5+ |
-| **GitHub Contributors** | 0 | 10+ | 50+ |
-| **Open Source Stars** | 0 | 500+ | 2,000+ |
+| **Cases Digitized (Projected)** | 0 (pre-pilot) | 10,000+ | 100,000+ |
+| **Background Checks (Projected)** | 0 (pre-pilot) | 50,000+ | 200,000+ annually |
+| **Police Stations to Deploy** | 0 (pre-pilot) | 50+ (Sierra Leone) | 500+ (5+ countries) |
+| **Officers to Train** | 0 (pre-pilot) | 500+ | 5,000+ |
+| **System Uptime (Target)** | Production-ready | 99.5% | 99.9% |
+| **Citizen USSD Users (Target)** | 0 (pre-pilot) | 100,000+ | 1,000,000+ |
+| **Countries for Deployment** | 0 (pre-pilot) | 1 (Sierra Leone) | 5+ |
+| **GitHub Contributors** | Development team | 10+ | 50+ |
+| **Open Source Stars** | In development | 500+ | 2,000+ |
 
 ### Qualitative Indicators
 
@@ -238,15 +238,22 @@ CRMS meets all **9 indicators** of the DPG Standard:
 
 ---
 
-## Case Studies (Future)
+## Case Studies (Planned - Pending Pilot Deployment)
 
-### Sierra Leone (Pilot - 2025)
+### Sierra Leone (Prepared for Pilot - Target Q2-Q3 2026)
 
-**Context:** Freetown police stations piloting CRMS
-**Outcomes:** [To be measured]
-**Lessons Learned:** [To be documented]
+**Context:** Sierra Leone Police Force is prepared for pilot deployment (pending government approval)
+**Timeline:** Target Q2-Q3 2026 (90-day deployment after partnership confirmation)
+**Scope:** 50+ police stations, 500+ officers, Freetown and regional stations
+**Preparation Complete:**
+- ✅ Development: 11/12 phases complete (91%)
+- ✅ Testing: 144+ test cases
+- ✅ Documentation: 200,000+ words
+- ⏳ Deployment: Awaiting partnership approval
+**Projected Outcomes:** 10,000+ cases digitized, 50,000+ background checks, measurable SDG 16 impact
+**Lessons to Document:** [Post-deployment]
 
-### Ghana (Planned - 2026)
+### Ghana (Planned - Target Q3-Q4 2026)
 
 **Context:** Ghana Police Service national rollout
 **Outcomes:** [To be measured]
@@ -269,7 +276,7 @@ For questions about CRMS's SDG alignment or to contribute to impact measurement:
 
 - **Email**: impact@crms-africa.org
 - **Website**: https://crms-africa.org
-- **GitHub**: https://github.com/african-digital-goods/crms
+- **GitHub**: https://github.com/PeekTower-HQ/crms
 
 ---
 
