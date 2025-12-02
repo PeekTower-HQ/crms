@@ -14,25 +14,61 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 import Link from "next/link";
+import { ImageUpload, ImageUploadResult } from "@/components/ui/image-upload";
+
+/**
+ * Photo data from image upload
+ */
+interface PhotoData {
+  url: string;
+  key: string;
+  thumbnailUrl: string;
+  smallUrl: string;
+  mediumUrl: string;
+  hash: string;
+  size: number;
+}
 
 export default function CreateAmberAlertPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<any>(null);
+  const [photoData, setPhotoData] = useState<PhotoData | null>(null);
 
   const [formData, setFormData] = useState({
     personName: "",
     age: "",
     gender: "",
     description: "",
-    photoUrl: "",
     lastSeenLocation: "",
     lastSeenDate: "",
     contactPhone: "",
     urgency: "high" as "critical" | "high" | "medium",
     publishNow: true,
   });
+
+  /**
+   * Handle successful image upload
+   */
+  const handleImageUpload = (uploadResult: ImageUploadResult) => {
+    setPhotoData({
+      url: uploadResult.url,
+      key: uploadResult.key,
+      thumbnailUrl: uploadResult.thumbnailUrl,
+      smallUrl: uploadResult.smallUrl,
+      mediumUrl: uploadResult.mediumUrl,
+      hash: uploadResult.hash,
+      size: uploadResult.size,
+    });
+  };
+
+  /**
+   * Handle image removal
+   */
+  const handleImageRemove = () => {
+    setPhotoData(null);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -74,18 +110,29 @@ export default function CreateAmberAlertPage() {
     }
 
     try {
-      const payload = {
+      // Build payload with photo data if available
+      const payload: Record<string, unknown> = {
         personName: formData.personName.trim(),
         age: parseInt(formData.age),
         gender: formData.gender || undefined,
         description: formData.description.trim() || undefined,
-        photoUrl: formData.photoUrl.trim() || undefined,
         lastSeenLocation: formData.lastSeenLocation.trim() || undefined,
         lastSeenDate: formData.lastSeenDate || undefined,
         contactPhone: formData.contactPhone.trim(),
         urgency: formData.urgency,
         publishNow: formData.publishNow,
       };
+
+      // Add photo data if uploaded
+      if (photoData) {
+        payload.photoUrl = photoData.url;
+        payload.photoFileKey = photoData.key;
+        payload.photoThumbnailUrl = photoData.thumbnailUrl;
+        payload.photoSmallUrl = photoData.smallUrl;
+        payload.photoMediumUrl = photoData.mediumUrl;
+        payload.photoHash = photoData.hash;
+        payload.photoSize = photoData.size;
+      }
 
       const response = await fetch("/api/alerts/amber", {
         method: "POST",
@@ -214,22 +261,21 @@ export default function CreateAmberAlertPage() {
             </p>
           </div>
 
-          {/* Photo URL */}
+          {/* Photo Upload */}
           <div>
-            <Label htmlFor="photoUrl">Photo URL</Label>
-            <Input
-              id="photoUrl"
-              name="photoUrl"
-              type="url"
-              placeholder="https://example.com/photo.jpg"
-              value={formData.photoUrl}
-              onChange={handleChange}
-              className="mt-1"
-              disabled={loading}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Optional: URL to child's photo
-            </p>
+            <Label>Child's Photo</Label>
+            <div className="mt-2">
+              <ImageUpload
+                entityType="amber-alert"
+                entityId="new"
+                onUploadComplete={handleImageUpload}
+                onUploadError={(err) => setError(err.message)}
+                onRemove={handleImageRemove}
+                disabled={loading}
+                label="Upload Photo"
+                helpText="A recent, clear photo helps with identification. Supported: JPEG, PNG, WebP, GIF (max 10MB)"
+              />
+            </div>
           </div>
 
           {/* Last Seen Location and Date */}

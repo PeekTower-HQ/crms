@@ -170,6 +170,7 @@ export async function POST(request: NextRequest) {
 
       fileData = {
         url: uploadResult.url,
+        key: uploadResult.key,
         name: file.name,
         size: uploadResult.size,
         mimeType: file.type,

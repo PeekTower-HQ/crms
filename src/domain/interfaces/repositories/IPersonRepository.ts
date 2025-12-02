@@ -27,7 +27,15 @@ export interface CreatePersonDto {
   religion?: string | null;
   languagesSpoken?: string[];
   physicalDescription?: string | null;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   addresses?: EncryptedAddress[];
   phoneNumbers?: string[];
   emails?: string[];
@@ -62,7 +70,15 @@ export interface UpdatePersonDto {
   religion?: string | null;
   languagesSpoken?: string[];
   physicalDescription?: string | null;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   addresses?: EncryptedAddress[];
   phoneNumbers?: string[];
   emails?: string[];

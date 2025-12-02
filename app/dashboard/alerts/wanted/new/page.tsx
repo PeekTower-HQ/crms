@@ -6,7 +6,7 @@
  */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,20 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle, Search } from "lucide-react";
 import Link from "next/link";
+import { ImageUpload, ImageUploadResult } from "@/components/ui/image-upload";
+
+/**
+ * Photo data from image upload
+ */
+interface PhotoData {
+  url: string;
+  key: string;
+  thumbnailUrl: string;
+  smallUrl: string;
+  mediumUrl: string;
+  hash: string;
+  size: number;
+}
 
 export default function CreateWantedPersonPage() {
   const router = useRouter();
@@ -23,6 +37,7 @@ export default function CreateWantedPersonPage() {
   const [searchingPerson, setSearchingPerson] = useState(false);
   const [personSearch, setPersonSearch] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [photoData, setPhotoData] = useState<PhotoData | null>(null);
 
   const [formData, setFormData] = useState({
     personId: "",
@@ -35,6 +50,28 @@ export default function CreateWantedPersonPage() {
     regionalAlert: false,
     publishNow: true,
   });
+
+  /**
+   * Handle successful image upload
+   */
+  const handleImageUpload = (uploadResult: ImageUploadResult) => {
+    setPhotoData({
+      url: uploadResult.url,
+      key: uploadResult.key,
+      thumbnailUrl: uploadResult.thumbnailUrl,
+      smallUrl: uploadResult.smallUrl,
+      mediumUrl: uploadResult.mediumUrl,
+      hash: uploadResult.hash,
+      size: uploadResult.size,
+    });
+  };
+
+  /**
+   * Handle image removal
+   */
+  const handleImageRemove = () => {
+    setPhotoData(null);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -106,7 +143,8 @@ export default function CreateWantedPersonPage() {
     }
 
     try {
-      const payload = {
+      // Build payload with photo data if available
+      const payload: Record<string, unknown> = {
         personId: formData.personId,
         charges: formData.charges.trim(),
         warrantNumber: formData.warrantNumber.trim() || undefined,
@@ -117,6 +155,17 @@ export default function CreateWantedPersonPage() {
         regionalAlert: formData.regionalAlert,
         publishNow: formData.publishNow,
       };
+
+      // Add photo data if uploaded
+      if (photoData) {
+        payload.photoUrl = photoData.url;
+        payload.photoFileKey = photoData.key;
+        payload.photoThumbnailUrl = photoData.thumbnailUrl;
+        payload.photoSmallUrl = photoData.smallUrl;
+        payload.photoMediumUrl = photoData.mediumUrl;
+        payload.photoHash = photoData.hash;
+        payload.photoSize = photoData.size;
+      }
 
       const response = await fetch("/api/alerts/wanted", {
         method: "POST",
@@ -310,6 +359,23 @@ export default function CreateWantedPersonPage() {
                 onChange={handleChange}
                 className="mt-1"
                 disabled={loading}
+              />
+            </div>
+          </div>
+
+          {/* Photo Upload */}
+          <div>
+            <Label>Wanted Person Photo</Label>
+            <div className="mt-2">
+              <ImageUpload
+                entityType="wanted-person"
+                entityId="new"
+                onUploadComplete={handleImageUpload}
+                onUploadError={(err) => setError(err.message)}
+                onRemove={handleImageRemove}
+                disabled={loading}
+                label="Upload Recent Photo"
+                helpText="A recent photo helps with identification. Can be different from the person's profile photo. Supported: JPEG, PNG, WebP, GIF (max 10MB)"
               />
             </div>
           </div>

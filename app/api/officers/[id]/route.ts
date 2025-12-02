@@ -91,12 +91,22 @@ export async function PATCH(
     const updatedOfficer = await container.officerService.updateOfficer(
       id,
       {
+        nationalId: body.nationalId,
         name: body.name,
         email: body.email,
         phone: body.phone,
         roleId: body.roleId,
         stationId: body.stationId,
         active: body.active,
+        enrollmentDate: body.enrollmentDate,
+        // Photo fields
+        photoUrl: body.photoUrl,
+        photoFileKey: body.photoFileKey,
+        photoThumbnailUrl: body.photoThumbnailUrl,
+        photoSmallUrl: body.photoSmallUrl,
+        photoMediumUrl: body.photoMediumUrl,
+        photoHash: body.photoHash,
+        photoSize: body.photoSize,
       },
       session.user.id,
       ip

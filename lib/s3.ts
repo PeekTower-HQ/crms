@@ -310,3 +310,129 @@ export function formatFileSize(bytes: number): string {
 
   return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
 }
+
+// ============================================================================
+// Image Upload Functions
+// ============================================================================
+
+import type { ImageVariants, ImageUploadResult, ImageDeleteKeys } from "./image";
+
+/**
+ * Upload all image variants (original, medium, small, thumbnail) to S3
+ *
+ * @param variants - Processed image variants from Sharp
+ * @param entityType - Type of entity (person, amber-alert, wanted-person)
+ * @param entityId - ID of the entity (for organizing in S3)
+ * @param originalFileName - Original uploaded file name
+ * @returns URLs and keys for all variants
+ */
+export async function uploadImageWithVariants(
+  variants: ImageVariants,
+  entityType: "person" | "officer" | "amber-alert" | "wanted-person",
+  entityId: string,
+  originalFileName: string
+): Promise<ImageUploadResult> {
+  const timestamp = Date.now();
+  const randomId = crypto.randomBytes(4).toString("hex");
+  const basePrefix = `images/${entityType}s/${entityId}/`;
+
+  // Determine extension based on format
+  const ext = variants.original.format === "webp" ? ".webp" : ".jpg";
+  const mimeType = variants.original.format === "webp" ? "image/webp" : "image/jpeg";
+
+  // Generate keys for all variants
+  const keys = {
+    original: `${basePrefix}original-${timestamp}-${randomId}${ext}`,
+    medium: `${basePrefix}medium-${timestamp}-${randomId}${ext}`,
+    small: `${basePrefix}small-${timestamp}-${randomId}${ext}`,
+    thumbnail: `${basePrefix}thumbnail-${timestamp}-${randomId}${ext}`,
+  };
+
+  try {
+    // Upload all variants in parallel for efficiency
+    const [originalResult, mediumResult, smallResult, thumbnailResult] = await Promise.all([
+      uploadVariant(variants.original.buffer, keys.original, mimeType, originalFileName),
+      uploadVariant(variants.medium.buffer, keys.medium, mimeType, originalFileName),
+      uploadVariant(variants.small.buffer, keys.small, mimeType, originalFileName),
+      uploadVariant(variants.thumbnail.buffer, keys.thumbnail, mimeType, originalFileName),
+    ]);
+
+    return {
+      url: originalResult.url,
+      key: originalResult.key,
+      thumbnailUrl: thumbnailResult.url,
+      thumbnailKey: thumbnailResult.key,
+      smallUrl: smallResult.url,
+      smallKey: smallResult.key,
+      mediumUrl: mediumResult.url,
+      mediumKey: mediumResult.key,
+      hash: calculateFileHash(variants.original.buffer),
+      size: variants.original.size,
+      width: variants.original.width,
+      height: variants.original.height,
+      mimeType,
+    };
+  } catch (error) {
+    console.error("Image upload error:", error);
+    throw new Error(
+      `Failed to upload image variants: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
+}
+
+/**
+ * Upload a single image variant to S3
+ */
+async function uploadVariant(
+  buffer: Buffer,
+  key: string,
+  mimeType: string,
+  originalFileName: string
+): Promise<{ url: string; key: string }> {
+  const command = new PutObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: key,
+    Body: buffer,
+    ContentType: mimeType,
+    Metadata: {
+      originalName: originalFileName,
+      uploadedAt: new Date().toISOString(),
+    },
+  });
+
+  await s3Client.send(command);
+
+  return {
+    url: getFileUrl(key),
+    key,
+  };
+}
+
+/**
+ * Delete all image variants for an entity
+ *
+ * @param keys - Object containing keys for all variants to delete
+ */
+export async function deleteImageVariants(keys: ImageDeleteKeys): Promise<void> {
+  const keysToDelete = [keys.key, keys.thumbnailKey, keys.smallKey, keys.mediumKey].filter(
+    (k): k is string => k != null && k !== ""
+  );
+
+  if (keysToDelete.length === 0) {
+    return;
+  }
+
+  try {
+    // Delete all variants in parallel
+    await Promise.all(keysToDelete.map((key) => deleteFile(key)));
+  } catch (error) {
+    console.error("Error deleting image variants:", error);
+    // Don't throw - cleanup failures shouldn't break the operation
+  }
+}
+
+/**
+ * Get the public URL for a file
+ * Exported for use in image upload functions
+ */
+export { getFileUrl };

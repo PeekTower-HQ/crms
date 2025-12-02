@@ -106,12 +106,22 @@ export async function POST(request: NextRequest) {
     const newOfficer = await container.officerService.createOfficer(
       {
         badge: body.badge,
+        nationalId: body.nationalId,
         name: body.name,
         email: body.email,
         phone: body.phone,
         pin: body.pin,
         roleId: body.roleId,
         stationId: body.stationId,
+        enrollmentDate: body.enrollmentDate,
+        // Photo fields
+        photoUrl: body.photoUrl,
+        photoFileKey: body.photoFileKey,
+        photoThumbnailUrl: body.photoThumbnailUrl,
+        photoSmallUrl: body.photoSmallUrl,
+        photoMediumUrl: body.photoMediumUrl,
+        photoHash: body.photoHash,
+        photoSize: body.photoSize,
       },
       session.user.id,
       ip

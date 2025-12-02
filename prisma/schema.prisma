@@ -16,6 +16,7 @@ datasource db {
 model Officer {
   id              String    @id @default(uuid())
   badge           String    @unique
+  nationalId      String?   @unique  // NIN or national ID for officer verification
   name            String
   email           String?   @unique
   phone           String?
@@ -25,6 +26,7 @@ model Officer {
   stationId       String
   station         Station   @relation(fields: [stationId], references: [id])
   active          Boolean   @default(true)
+  enrollmentDate  DateTime?           // Date officer was enrolled/hired
   lastLogin       DateTime?
   pinChangedAt    DateTime  @default(now())
   failedAttempts  Int       @default(0)
@@ -32,6 +34,16 @@ model Officer {
   mfaEnabled      Boolean   @default(false)
   mfaSecret       String?   // TOTP secret (encrypted)
   mfaBackupCodes  String[]  // Encrypted backup codes
+
+  // Photo fields
+  photoUrl          String?     // Original image URL
+  photoFileKey      String?     // S3 key for deletion
+  photoThumbnailUrl String?     // 80x80 thumbnail URL
+  photoSmallUrl     String?     // 200x200 small URL
+  photoMediumUrl    String?     // 400x400 medium URL
+  photoHash         String?     // SHA-256 integrity hash
+  photoSize         Int?        // File size in bytes
+  photoUploadedAt   DateTime?   // When photo was uploaded
 
   // USSD Fields (Phase 7)
   ussdPhoneNumber    String?   @unique  // E.164 format (+2327812345678)
@@ -56,6 +68,7 @@ model Officer {
   ussdQueryLogs     USSDQueryLog[]
 
   @@index([badge])
+  @@index([nationalId])
   @@index([stationId])
   @@index([roleId])
   @@index([ussdPhoneNumber])
@@ -148,7 +161,15 @@ model Person {
   addressEncrypted String?      // AES-256 encrypted
   phoneEncrypted  String?       // AES-256 encrypted
   emailEncrypted  String?       // AES-256 encrypted
-  photoUrl        String?
+  // Photo fields
+  photoUrl          String?     // Original image URL
+  photoFileKey      String?     // S3 key for deletion
+  photoThumbnailUrl String?     // 80x80 thumbnail URL
+  photoSmallUrl     String?     // 200x200 small URL
+  photoMediumUrl    String?     // 400x400 medium URL
+  photoHash         String?     // SHA-256 integrity hash
+  photoSize         Int?        // File size in bytes
+  photoUploadedAt   DateTime?   // When photo was uploaded
   fingerprintHash String?       // SHA-256 hash
   biometricHash   String?
   // Status tracking fields
@@ -287,7 +308,15 @@ model AmberAlert {
   age              Int?
   gender           String?
   description      String    @db.Text
-  photoUrl         String?
+  // Photo fields
+  photoUrl          String?     // Original image URL
+  photoFileKey      String?     // S3 key for deletion
+  photoThumbnailUrl String?     // 80x80 thumbnail URL
+  photoSmallUrl     String?     // 200x200 small URL
+  photoMediumUrl    String?     // 400x400 medium URL
+  photoHash         String?     // SHA-256 integrity hash
+  photoSize         Int?        // File size in bytes
+  photoUploadedAt   DateTime?   // When photo was uploaded
   lastSeenLocation String?
   lastSeenDate     DateTime?
   contactPhone     String
@@ -311,7 +340,15 @@ model WantedPerson {
   name        String
   aliases     String[]
   charges     String[]
-  photoUrl    String?
+  // Photo fields
+  photoUrl          String?     // Original image URL
+  photoFileKey      String?     // S3 key for deletion
+  photoThumbnailUrl String?     // 80x80 thumbnail URL
+  photoSmallUrl     String?     // 200x200 small URL
+  photoMediumUrl    String?     // 400x400 medium URL
+  photoHash         String?     // SHA-256 integrity hash
+  photoSize         Int?        // File size in bytes
+  photoUploadedAt   DateTime?   // When photo was uploaded
   description String?  @db.Text
   reward      Decimal? @db.Decimal(10, 2)
   dangerLevel       String    @default("medium") // "low", "medium", "high", "extreme"

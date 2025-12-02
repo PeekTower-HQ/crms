@@ -123,7 +123,15 @@ export class PersonRepository extends BaseRepository implements IPersonRepositor
       null, // religion - not in current schema
       [], // languagesSpoken - not in current schema
       null, // physicalDescription - not in current schema
+      // Photo fields
       data.photoUrl,
+      data.photoFileKey,
+      data.photoThumbnailUrl,
+      data.photoSmallUrl,
+      data.photoMediumUrl,
+      data.photoHash,
+      data.photoSize,
+      data.photoUploadedAt ? new Date(data.photoUploadedAt) : null,
       addresses, // Parsed from addressEncrypted
       phoneNumbers, // Parsed from phoneEncrypted
       emails, // Parsed from emailEncrypted
@@ -459,7 +467,15 @@ export class PersonRepository extends BaseRepository implements IPersonRepositor
           dto.emails && dto.emails.length > 0
             ? encryptPII(JSON.stringify(dto.emails))
             : null,
+        // Photo fields
         photoUrl: dto.photoUrl || null,
+        photoFileKey: dto.photoFileKey || null,
+        photoThumbnailUrl: dto.photoThumbnailUrl || null,
+        photoSmallUrl: dto.photoSmallUrl || null,
+        photoMediumUrl: dto.photoMediumUrl || null,
+        photoHash: dto.photoHash || null,
+        photoSize: dto.photoSize || null,
+        photoUploadedAt: dto.photoUploadedAt || null,
         fingerprintHash: dto.fingerprintHash || null,
         biometricHash: dto.biometricHash || null,
         riskLevel: dto.riskLevel || null,
@@ -487,7 +503,15 @@ export class PersonRepository extends BaseRepository implements IPersonRepositor
     if (dto.dateOfBirth !== undefined) updateData.dob = dto.dateOfBirth;
     if (dto.gender) updateData.gender = dto.gender;
     if (dto.nationality !== undefined) updateData.nationality = dto.nationality;
+    // Photo fields
     if (dto.photoUrl !== undefined) updateData.photoUrl = dto.photoUrl;
+    if (dto.photoFileKey !== undefined) updateData.photoFileKey = dto.photoFileKey;
+    if (dto.photoThumbnailUrl !== undefined) updateData.photoThumbnailUrl = dto.photoThumbnailUrl;
+    if (dto.photoSmallUrl !== undefined) updateData.photoSmallUrl = dto.photoSmallUrl;
+    if (dto.photoMediumUrl !== undefined) updateData.photoMediumUrl = dto.photoMediumUrl;
+    if (dto.photoHash !== undefined) updateData.photoHash = dto.photoHash;
+    if (dto.photoSize !== undefined) updateData.photoSize = dto.photoSize;
+    if (dto.photoUploadedAt !== undefined) updateData.photoUploadedAt = dto.photoUploadedAt;
     if (dto.addresses)
       updateData.addressEncrypted = encryptPII(JSON.stringify(dto.addresses));
     if (dto.phoneNumbers)

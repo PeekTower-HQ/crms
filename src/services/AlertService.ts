@@ -48,7 +48,14 @@ export interface CreateAmberAlertInput {
   age: number | null;
   gender: Gender | null;
   description: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
   lastSeenLocation?: string | null;
   lastSeenDate?: string | null; // ISO string
   contactPhone: string;
@@ -63,7 +70,14 @@ export interface UpdateAmberAlertInput {
   age?: number | null;
   gender?: Gender | null;
   description?: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
   lastSeenLocation?: string | null;
   lastSeenDate?: string | null;
   contactPhone?: string;
@@ -82,7 +96,14 @@ export interface CreateWantedPersonInput {
   lastSeenLocation?: string | null;
   lastSeenDate?: string | null;
   physicalDescription: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
   rewardAmount?: number | null;
   contactPhone: string;
   isRegionalAlert?: boolean;
@@ -97,7 +118,14 @@ export interface UpdateWantedPersonInput {
   lastSeenLocation?: string | null;
   lastSeenDate?: string | null;
   physicalDescription?: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
   rewardAmount?: number | null;
   contactPhone?: string;
   isRegionalAlert?: boolean;
@@ -169,6 +197,13 @@ export class AlertService {
       gender: input.gender,
       description: input.description,
       photoUrl: input.photoUrl || null,
+      photoFileKey: input.photoFileKey || null,
+      photoThumbnailUrl: input.photoThumbnailUrl || null,
+      photoSmallUrl: input.photoSmallUrl || null,
+      photoMediumUrl: input.photoMediumUrl || null,
+      photoHash: input.photoHash || null,
+      photoSize: input.photoSize || null,
+      photoUploadedAt: input.photoUrl ? new Date() : null,
       lastSeenLocation: input.lastSeenLocation || null,
       lastSeenDate: input.lastSeenDate ? new Date(input.lastSeenDate) : null,
       contactPhone: input.contactPhone,
@@ -481,6 +516,13 @@ export class AlertService {
       lastSeenDate: input.lastSeenDate ? new Date(input.lastSeenDate) : null,
       physicalDescription: input.physicalDescription,
       photoUrl: input.photoUrl || null,
+      photoFileKey: input.photoFileKey || null,
+      photoThumbnailUrl: input.photoThumbnailUrl || null,
+      photoSmallUrl: input.photoSmallUrl || null,
+      photoMediumUrl: input.photoMediumUrl || null,
+      photoHash: input.photoHash || null,
+      photoSize: input.photoSize || null,
+      photoUploadedAt: input.photoUrl ? new Date() : null,
       rewardAmount: input.rewardAmount || null,
       contactPhone: input.contactPhone,
       isRegionalAlert: input.isRegionalAlert || false,

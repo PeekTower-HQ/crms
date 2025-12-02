@@ -67,7 +67,7 @@ export default function BackgroundCheckSearchPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/background-checks">
+        <Link href="/dashboard/background-checks">
           <Button variant="outline" size="sm">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back

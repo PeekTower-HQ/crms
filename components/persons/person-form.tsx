@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Loader2, Plus, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUpload, ImageUploadResult } from "@/components/ui/image-upload";
 
 const personSchema = z.object({
   // Basic Information
@@ -67,9 +68,27 @@ const personSchema = z.object({
 type PersonFormData = z.infer<typeof personSchema>;
 
 interface PersonFormProps {
-  initialData?: Partial<PersonFormData>;
+  initialData?: Partial<PersonFormData> & {
+    alias?: string[];
+    languagesSpoken?: string[];
+    photoUrl?: string | null;
+    photoThumbnailUrl?: string | null;
+  };
   personId?: string;
   onSuccess?: (personData: any) => void;
+}
+
+/**
+ * Photo data structure for form submission
+ */
+interface PhotoData {
+  url: string;
+  key: string;
+  thumbnailUrl: string;
+  smallUrl: string;
+  mediumUrl: string;
+  hash: string;
+  size: number;
 }
 
 export function PersonForm({ initialData, personId, onSuccess }: PersonFormProps) {
@@ -77,13 +96,14 @@ export function PersonForm({ initialData, personId, onSuccess }: PersonFormProps
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [aliases, setAliases] = useState<string[]>(
-    (initialData as any)?.alias || []
+    initialData?.alias || []
   );
   const [newAlias, setNewAlias] = useState("");
   const [languages, setLanguages] = useState<string[]>(
-    (initialData as any)?.languagesSpoken || []
+    initialData?.languagesSpoken || []
   );
   const [newLanguage, setNewLanguage] = useState("");
+  const [photoData, setPhotoData] = useState<PhotoData | null>(null);
 
   const form = useForm<PersonFormData>({
     resolver: zodResolver(personSchema),
@@ -130,6 +150,28 @@ export function PersonForm({ initialData, personId, onSuccess }: PersonFormProps
     setLanguages(languages.filter((l) => l !== language));
   };
 
+  /**
+   * Handle successful image upload
+   */
+  const handleImageUpload = (result: ImageUploadResult) => {
+    setPhotoData({
+      url: result.url,
+      key: result.key,
+      thumbnailUrl: result.thumbnailUrl,
+      smallUrl: result.smallUrl,
+      mediumUrl: result.mediumUrl,
+      hash: result.hash,
+      size: result.size,
+    });
+  };
+
+  /**
+   * Handle image removal
+   */
+  const handleImageRemove = () => {
+    setPhotoData(null);
+  };
+
   const onSubmit = async (data: PersonFormData) => {
     setIsSubmitting(true);
 
@@ -137,11 +179,23 @@ export function PersonForm({ initialData, personId, onSuccess }: PersonFormProps
       const url = personId ? `/api/persons/${personId}` : "/api/persons";
       const method = personId ? "PATCH" : "POST";
 
-      const payload = {
+      // Build payload with photo data if present
+      const payload: Record<string, unknown> = {
         ...data,
         alias: aliases,
         languagesSpoken: languages,
       };
+
+      // Add photo data if a new photo was uploaded
+      if (photoData) {
+        payload.photoUrl = photoData.url;
+        payload.photoFileKey = photoData.key;
+        payload.photoThumbnailUrl = photoData.thumbnailUrl;
+        payload.photoSmallUrl = photoData.smallUrl;
+        payload.photoMediumUrl = photoData.mediumUrl;
+        payload.photoHash = photoData.hash;
+        payload.photoSize = photoData.size;
+      }
 
       const response = await fetch(url, {
         method,
@@ -183,6 +237,29 @@ export function PersonForm({ initialData, personId, onSuccess }: PersonFormProps
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Photo Upload */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-900">Photo</h3>
+          <ImageUpload
+            entityType="person"
+            entityId={personId || "new"}
+            currentImageUrl={initialData?.photoUrl}
+            currentThumbnailUrl={initialData?.photoThumbnailUrl}
+            onUploadComplete={handleImageUpload}
+            onUploadError={(error) => {
+              toast({
+                title: "Upload Error",
+                description: error.message,
+                variant: "destructive",
+              });
+            }}
+            onRemove={handleImageRemove}
+            disabled={isSubmitting}
+            label="Person Photo"
+            helpText="Upload a clear photo for identification. Supported: JPEG, PNG, WebP, GIF (max 10MB)"
+          />
+        </div>
+
         {/* Basic Information */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-900">Basic Information</h3>
