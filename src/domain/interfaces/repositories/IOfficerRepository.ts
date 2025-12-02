@@ -8,15 +8,26 @@ import { Officer } from "@/src/domain/entities/Officer";
 
 export interface CreateOfficerDto {
   badge: string;
+  nationalId?: string; // NIN or national ID
   name: string;
   email?: string;
   phone?: string;
   pinHash: string;
   roleId: string;
   stationId: string;
+  enrollmentDate?: Date; // Date officer was enrolled/hired
+  // Photo fields
+  photoUrl?: string;
+  photoFileKey?: string;
+  photoThumbnailUrl?: string;
+  photoSmallUrl?: string;
+  photoMediumUrl?: string;
+  photoHash?: string;
+  photoSize?: number;
 }
 
 export interface UpdateOfficerDto {
+  nationalId?: string | null; // NIN or national ID
   name?: string;
   email?: string;
   phone?: string;
@@ -24,6 +35,7 @@ export interface UpdateOfficerDto {
   roleId?: string;
   stationId?: string;
   active?: boolean;
+  enrollmentDate?: Date | null; // Date officer was enrolled/hired
   mfaEnabled?: boolean;
   mfaSecret?: string;
   // USSD fields
@@ -32,6 +44,14 @@ export interface UpdateOfficerDto {
   ussdEnabled?: boolean;
   ussdRegisteredAt?: Date;
   ussdDailyLimit?: number;
+  // Photo fields
+  photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
 }
 
 export interface OfficerFilters {
@@ -45,6 +65,7 @@ export interface IOfficerRepository {
   // Queries
   findById(id: string): Promise<Officer | null>;
   findByBadge(badge: string): Promise<Officer | null>;
+  findByNationalId(nationalId: string): Promise<Officer | null>;
   findByEmail(email: string): Promise<Officer | null>;
   findByStationId(stationId: string): Promise<Officer[]>;
   findAll(filters?: OfficerFilters): Promise<Officer[]>;

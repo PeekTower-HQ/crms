@@ -53,7 +53,14 @@ export class WantedPerson {
     public readonly lastSeenLocation: string | null,
     public readonly lastSeenDate: Date | null,
     public readonly physicalDescription: string,
-    public readonly photoUrl: string | null,        // Photo (S3 URL)
+    public readonly photoUrl: string | null,        // Original photo URL (S3)
+    public readonly photoFileKey: string | null,    // S3 key for deletion
+    public readonly photoThumbnailUrl: string | null, // 80x80 thumbnail
+    public readonly photoSmallUrl: string | null,   // 200x200 small
+    public readonly photoMediumUrl: string | null,  // 400x400 medium
+    public readonly photoHash: string | null,       // SHA-256 integrity hash
+    public readonly photoSize: number | null,       // File size in bytes
+    public readonly photoUploadedAt: Date | null,   // When photo was uploaded
     public readonly rewardAmount: number | null,    // Reward in local currency
     public readonly contactPhone: string,           // Tips hotline
     public readonly isRegionalAlert: boolean,       // Share across borders?
@@ -61,6 +68,30 @@ export class WantedPerson {
     public readonly createdAt: Date,
     public readonly updatedAt: Date
   ) {}
+
+  /**
+   * Check if a photo has been uploaded
+   */
+  hasPhoto(): boolean {
+    return this.photoUrl !== null;
+  }
+
+  /**
+   * Get the best available photo URL for display
+   */
+  getPhotoUrl(size: "thumbnail" | "small" | "medium" | "original" = "medium"): string | null {
+    switch (size) {
+      case "thumbnail":
+        return this.photoThumbnailUrl || this.photoSmallUrl || this.photoUrl;
+      case "small":
+        return this.photoSmallUrl || this.photoThumbnailUrl || this.photoUrl;
+      case "medium":
+        return this.photoMediumUrl || this.photoSmallUrl || this.photoUrl;
+      case "original":
+      default:
+        return this.photoUrl;
+    }
+  }
 
   /**
    * Check if the person is currently wanted

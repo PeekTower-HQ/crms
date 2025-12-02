@@ -24,7 +24,15 @@ export interface CreateAmberAlertDto {
   age: number | null;
   gender: Gender | null;
   description: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   lastSeenLocation?: string | null;
   lastSeenDate?: Date | null;
   contactPhone: string;
@@ -42,7 +50,15 @@ export interface UpdateAmberAlertDto {
   age?: number | null;
   gender?: Gender | null;
   description?: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   lastSeenLocation?: string | null;
   lastSeenDate?: Date | null;
   contactPhone?: string;

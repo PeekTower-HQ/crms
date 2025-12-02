@@ -33,7 +33,15 @@ export interface CreateWantedPersonDto {
   lastSeenLocation?: string | null;
   lastSeenDate?: Date | null;
   physicalDescription: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   rewardAmount?: number | null;
   contactPhone: string;
   isRegionalAlert?: boolean;
@@ -49,7 +57,15 @@ export interface UpdateWantedPersonDto {
   lastSeenLocation?: string | null;
   lastSeenDate?: Date | null;
   physicalDescription?: string;
+  // Photo fields
   photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
+  photoUploadedAt?: Date | null;
   rewardAmount?: number | null;
   contactPhone?: string;
   isRegionalAlert?: boolean;

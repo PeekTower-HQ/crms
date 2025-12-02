@@ -10,12 +10,14 @@ export class Officer {
   constructor(
     public readonly id: string,
     public readonly badge: string,
+    public readonly nationalId: string | null, // NIN or national ID for officer verification
     public readonly name: string,
     public readonly email: string | null,
     public readonly phone: string | null,
     public readonly roleId: string,
     public readonly stationId: string,
     public readonly active: boolean,
+    public readonly enrollmentDate: Date | null, // Date officer was enrolled/hired
     public readonly lastLogin: Date | null,
     public readonly pinChangedAt: Date,
     public readonly failedAttempts: number,
@@ -29,7 +31,16 @@ export class Officer {
     public readonly ussdEnabled: boolean = false,
     public readonly ussdRegisteredAt: Date | null = null,
     public readonly ussdLastUsed: Date | null = null,
-    public readonly ussdDailyLimit: number = 50
+    public readonly ussdDailyLimit: number = 50,
+    // Photo fields
+    public readonly photoUrl: string | null = null,
+    public readonly photoFileKey: string | null = null,
+    public readonly photoThumbnailUrl: string | null = null,
+    public readonly photoSmallUrl: string | null = null,
+    public readonly photoMediumUrl: string | null = null,
+    public readonly photoHash: string | null = null,
+    public readonly photoSize: number | null = null,
+    public readonly photoUploadedAt: Date | null = null
   ) {}
 
   /**
@@ -87,5 +98,45 @@ export class Officer {
    */
   isNewAccount(): boolean {
     return this.lastLogin === null;
+  }
+
+  /**
+   * Check if officer has a national ID (NIN)
+   */
+  hasNationalId(): boolean {
+    return this.nationalId !== null && this.nationalId.length > 0;
+  }
+
+  /**
+   * Get years of service based on enrollment date
+   */
+  getYearsOfService(): number | null {
+    if (!this.enrollmentDate) return null;
+    const years = (Date.now() - this.enrollmentDate.getTime()) / (1000 * 60 * 60 * 24 * 365);
+    return Math.floor(years);
+  }
+
+  /**
+   * Check if officer has a photo
+   */
+  hasPhoto(): boolean {
+    return this.photoUrl !== null;
+  }
+
+  /**
+   * Get photo URL for a specific size
+   */
+  getPhotoUrl(size: "thumbnail" | "small" | "medium" | "original" = "original"): string | null {
+    switch (size) {
+      case "thumbnail":
+        return this.photoThumbnailUrl || this.photoUrl;
+      case "small":
+        return this.photoSmallUrl || this.photoUrl;
+      case "medium":
+        return this.photoMediumUrl || this.photoUrl;
+      case "original":
+      default:
+        return this.photoUrl;
+    }
   }
 }

@@ -62,7 +62,15 @@ export class Person {
     public readonly religion: string | null,
     public readonly languagesSpoken: string[], // Multi-language support
     public readonly physicalDescription: string | null, // Height, build, distinguishing marks
-    public readonly photoUrl: string | null, // S3 photo URL
+    // Photo fields
+    public readonly photoUrl: string | null, // Original S3 photo URL
+    public readonly photoFileKey: string | null, // S3 key for deletion
+    public readonly photoThumbnailUrl: string | null, // 80x80 thumbnail
+    public readonly photoSmallUrl: string | null, // 200x200 small
+    public readonly photoMediumUrl: string | null, // 400x400 medium
+    public readonly photoHash: string | null, // SHA-256 integrity hash
+    public readonly photoSize: number | null, // File size in bytes
+    public readonly photoUploadedAt: Date | null, // When photo was uploaded
     public readonly addresses: EncryptedAddress[], // Encrypted PII
     public readonly phoneNumbers: string[], // Encrypted PII
     public readonly emails: string[], // Encrypted PII
@@ -159,6 +167,31 @@ export class Person {
       this.nationality !== null &&
       this.addresses.length > 0
     );
+  }
+
+  /**
+   * Check if person has a photo uploaded
+   */
+  hasPhoto(): boolean {
+    return this.photoUrl !== null;
+  }
+
+  /**
+   * Get the best available photo URL for display
+   * Returns thumbnail for lists, medium for detail views
+   */
+  getPhotoUrl(size: "thumbnail" | "small" | "medium" | "original" = "medium"): string | null {
+    switch (size) {
+      case "thumbnail":
+        return this.photoThumbnailUrl || this.photoSmallUrl || this.photoUrl;
+      case "small":
+        return this.photoSmallUrl || this.photoThumbnailUrl || this.photoUrl;
+      case "medium":
+        return this.photoMediumUrl || this.photoSmallUrl || this.photoUrl;
+      case "original":
+      default:
+        return this.photoUrl;
+    }
   }
 
   /**
@@ -351,6 +384,13 @@ export class Person {
       languagesSpoken: this.languagesSpoken,
       physicalDescription: this.physicalDescription,
       photoUrl: this.photoUrl,
+      photoFileKey: this.photoFileKey,
+      photoThumbnailUrl: this.photoThumbnailUrl,
+      photoSmallUrl: this.photoSmallUrl,
+      photoMediumUrl: this.photoMediumUrl,
+      photoHash: this.photoHash,
+      photoSize: this.photoSize,
+      photoUploadedAt: this.photoUploadedAt,
       addresses: this.addresses,
       phoneNumbers: this.phoneNumbers,
       emails: this.emails,
@@ -370,6 +410,7 @@ export class Person {
       fullName: this.getFullName(),
       displayName: this.getDisplayName(),
       age: this.getAge(),
+      hasPhoto: this.hasPhoto(),
       hasBiometrics: this.hasBiometricData(),
       hasCompleteId: this.hasCompleteIdentification(),
       primaryAddress: this.getPrimaryAddress(),

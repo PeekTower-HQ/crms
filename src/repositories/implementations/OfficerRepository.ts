@@ -49,6 +49,20 @@ export class OfficerRepository extends BaseRepository implements IOfficerReposit
     }, "findByBadge");
   }
 
+  async findByNationalId(nationalId: string): Promise<Officer | null> {
+    return this.execute(async () => {
+      const officer = await this.prisma.officer.findUnique({
+        where: { nationalId },
+        include: {
+          role: { include: { permissions: true } },
+          station: true,
+        },
+      });
+
+      return officer ? this.toDomain(officer) : null;
+    }, "findByNationalId");
+  }
+
   async findByEmail(email: string): Promise<Officer | null> {
     return this.execute(async () => {
       const officer = await this.prisma.officer.findUnique({
@@ -107,6 +121,7 @@ export class OfficerRepository extends BaseRepository implements IOfficerReposit
       const officer = await this.prisma.officer.create({
         data: {
           badge: data.badge,
+          nationalId: data.nationalId,
           name: data.name,
           email: data.email,
           phone: data.phone,
@@ -114,8 +129,18 @@ export class OfficerRepository extends BaseRepository implements IOfficerReposit
           roleId: data.roleId,
           stationId: data.stationId,
           active: true,
+          enrollmentDate: data.enrollmentDate,
           failedAttempts: 0,
           mfaEnabled: false,
+          // Photo fields
+          photoUrl: data.photoUrl,
+          photoFileKey: data.photoFileKey,
+          photoThumbnailUrl: data.photoThumbnailUrl,
+          photoSmallUrl: data.photoSmallUrl,
+          photoMediumUrl: data.photoMediumUrl,
+          photoHash: data.photoHash,
+          photoSize: data.photoSize,
+          photoUploadedAt: data.photoUrl ? new Date() : null,
         },
         include: {
           role: { include: { permissions: true } },
@@ -242,12 +267,14 @@ export class OfficerRepository extends BaseRepository implements IOfficerReposit
     return new Officer(
       data.id,
       data.badge,
+      data.nationalId,
       data.name,
       data.email,
       data.phone,
       data.roleId,
       data.stationId,
       data.active,
+      data.enrollmentDate ? new Date(data.enrollmentDate) : null,
       data.lastLogin,
       data.pinChangedAt,
       data.failedAttempts,
@@ -261,7 +288,16 @@ export class OfficerRepository extends BaseRepository implements IOfficerReposit
       data.ussdEnabled,
       data.ussdRegisteredAt,
       data.ussdLastUsed,
-      data.ussdDailyLimit
+      data.ussdDailyLimit,
+      // Photo fields
+      data.photoUrl,
+      data.photoFileKey,
+      data.photoThumbnailUrl,
+      data.photoSmallUrl,
+      data.photoMediumUrl,
+      data.photoHash,
+      data.photoSize,
+      data.photoUploadedAt ? new Date(data.photoUploadedAt) : null
     );
   }
 }

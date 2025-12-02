@@ -12,14 +12,16 @@ import { Officer } from '@/src/domain/entities/Officer';
 export const mockOfficer: Officer = new Officer(
   'officer-123',
   'SA-00001',
+  'NIN123456789', // nationalId
   'Test Officer',
   'test@crms.gov.sl',
   '+23276123456',
   'role-officer',
   'station-hq',
   true,
-  new Date(),
-  new Date(),
+  new Date(), // enrollmentDate
+  new Date(), // lastLogin
+  new Date(), // pinChangedAt
   0,
   null,
   false,
@@ -30,6 +32,7 @@ export const mockOfficer: Officer = new Officer(
 export const mockOfficerPrisma = {
   id: 'officer-123',
   badge: 'SA-00001',
+  nationalId: 'NIN123456789',
   name: 'Test Officer',
   email: 'test@crms.gov.sl',
   phone: '+23276123456',
@@ -37,6 +40,7 @@ export const mockOfficerPrisma = {
   roleId: 'role-officer',
   stationId: 'station-hq',
   active: true,
+  enrollmentDate: new Date(),
   lastLogin: new Date(),
   pinChangedAt: new Date(),
   failedAttempts: 0,
@@ -101,7 +105,15 @@ export const mockPerson: Person = new Person(
   'Christian',
   ['English', 'Krio'],
   'Height 180cm, medium build',
-  'https://example.com/photo.jpg',
+  // Photo fields
+  'https://example.com/photo.jpg', // photoUrl
+  null, // photoFileKey
+  null, // photoThumbnailUrl
+  null, // photoSmallUrl
+  null, // photoMediumUrl
+  null, // photoHash
+  null, // photoSize
+  null, // photoUploadedAt
   [{ type: 'residence' as const, street: '123 Main St', city: 'Freetown', region: 'Western Area', country: 'SLE' }],
   ['+23276123456'],
   ['john.doe@example.com'],

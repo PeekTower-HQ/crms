@@ -29,21 +29,41 @@ import * as argon2 from "argon2";
 
 export interface CreateOfficerInput {
   badge: string;
+  nationalId?: string; // NIN or national ID
   name: string;
   email?: string;
   phone?: string;
   pin: string; // Plain text PIN (will be hashed)
   roleId: string;
   stationId: string;
+  enrollmentDate?: string; // ISO date string
+  // Photo fields
+  photoUrl?: string;
+  photoFileKey?: string;
+  photoThumbnailUrl?: string;
+  photoSmallUrl?: string;
+  photoMediumUrl?: string;
+  photoHash?: string;
+  photoSize?: number;
 }
 
 export interface UpdateOfficerInput {
+  nationalId?: string | null; // NIN or national ID
   name?: string;
   email?: string;
   phone?: string;
   roleId?: string;
   stationId?: string;
   active?: boolean;
+  enrollmentDate?: string | null; // ISO date string
+  // Photo fields
+  photoUrl?: string | null;
+  photoFileKey?: string | null;
+  photoThumbnailUrl?: string | null;
+  photoSmallUrl?: string | null;
+  photoMediumUrl?: string | null;
+  photoHash?: string | null;
+  photoSize?: number | null;
 }
 
 export interface BulkActionInput {
@@ -90,6 +110,16 @@ export class OfficerService {
       );
     }
 
+    // Check nationalId uniqueness if provided
+    if (data.nationalId) {
+      const existingByNationalId = await this.officerRepo.findByNationalId(data.nationalId.trim());
+      if (existingByNationalId) {
+        throw new ValidationError(
+          `National ID ${data.nationalId} is already in use`
+        );
+      }
+    }
+
     // Hash PIN with Argon2id
     const pinHash = await argon2.hash(data.pin, {
       type: argon2.argon2id,
@@ -101,12 +131,22 @@ export class OfficerService {
     // Create officer
     const officerData: CreateOfficerDto = {
       badge: data.badge.toUpperCase().trim(),
+      nationalId: data.nationalId?.trim(),
       name: data.name.trim(),
       email: data.email?.toLowerCase().trim(),
       phone: data.phone?.trim(),
       pinHash,
       roleId: data.roleId,
       stationId: data.stationId,
+      enrollmentDate: data.enrollmentDate ? new Date(data.enrollmentDate) : undefined,
+      // Photo fields
+      photoUrl: data.photoUrl,
+      photoFileKey: data.photoFileKey,
+      photoThumbnailUrl: data.photoThumbnailUrl,
+      photoSmallUrl: data.photoSmallUrl,
+      photoMediumUrl: data.photoMediumUrl,
+      photoHash: data.photoHash,
+      photoSize: data.photoSize,
     };
 
     const newOfficer = await this.officerRepo.create(officerData);
@@ -201,12 +241,45 @@ export class OfficerService {
       throw new ValidationError("Invalid email format");
     }
 
+    // Validate phone format if provided
+    if (data.phone && !this.isValidPhone(data.phone)) {
+      throw new ValidationError("Invalid phone format");
+    }
+
+    // Validate nationalId if provided
+    if (data.nationalId !== undefined && data.nationalId !== null) {
+      if (data.nationalId.trim().length < 5) {
+        throw new ValidationError("National ID must be at least 5 characters");
+      }
+      // Check uniqueness (only if different from current)
+      if (data.nationalId.trim() !== existingOfficer.nationalId) {
+        const existingByNationalId = await this.officerRepo.findByNationalId(data.nationalId.trim());
+        if (existingByNationalId && existingByNationalId.id !== id) {
+          throw new ValidationError(
+            `National ID ${data.nationalId} is already in use`
+          );
+        }
+      }
+    }
+
+    // Validate enrollmentDate if provided (must not be in the future)
+    if (data.enrollmentDate) {
+      const enrollmentDate = new Date(data.enrollmentDate);
+      const today = new Date();
+      today.setHours(23, 59, 59, 999); // End of today
+      if (enrollmentDate > today) {
+        throw new ValidationError("Enrollment date cannot be in the future");
+      }
+    }
+
     // Prepare update data
     const updateData: UpdateOfficerDto = {
       ...data,
+      nationalId: data.nationalId?.trim(),
       name: data.name?.trim(),
       email: data.email?.toLowerCase().trim(),
       phone: data.phone?.trim(),
+      enrollmentDate: data.enrollmentDate ? new Date(data.enrollmentDate) : (data.enrollmentDate === null ? null : undefined),
     };
 
     // Update officer
@@ -560,6 +633,21 @@ export class OfficerService {
       throw new ValidationError(
         "Invalid badge format. Expected format: XX-XXXX or XXX-XXXXX"
       );
+    }
+
+    // National ID validation (if provided)
+    if (data.nationalId && data.nationalId.trim().length < 5) {
+      throw new ValidationError("National ID must be at least 5 characters");
+    }
+
+    // Enrollment date validation (if provided, must not be in the future)
+    if (data.enrollmentDate) {
+      const enrollmentDate = new Date(data.enrollmentDate);
+      const today = new Date();
+      today.setHours(23, 59, 59, 999); // End of today
+      if (enrollmentDate > today) {
+        throw new ValidationError("Enrollment date cannot be in the future");
+      }
     }
   }
 
