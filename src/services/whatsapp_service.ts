@@ -88,7 +88,7 @@ async function handleMessage(
   const { whatsappSessionRepository, fieldCheckService } = container;
 
   // Step 1: Check if phone number is registered
-  const officer = await fieldCheckService.findOfficerByPhone(phoneNumber);
+  const officer = await fieldCheckService.findOfficerByPhone('+'+phoneNumber);
 
   if (!officer) {
     await whapi.sendTextMessage(
@@ -113,6 +113,8 @@ async function handleMessage(
 
   // Step 3: Get or create session
   const session = await whatsappSessionRepository.getOrCreate(phoneNumber);
+
+  console.log("session", session);
 
   // Step 4: Parse user input
   const input = parseInput(message);

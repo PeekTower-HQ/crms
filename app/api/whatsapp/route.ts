@@ -4,6 +4,8 @@ import * as whatsappBot from "@/src/services/whatsapp_service";
 export async function POST(request: Request) {
   const body = await request.json();
 
+  console.log("[DEBUG] Webhook body:", JSON.stringify(body, null, 2));
+
   // Check if webhook contains a message before processing
   if (!body.messages || !body.messages[0]) {
     // This is likely a status update, delivery receipt, or other non-message webhook
