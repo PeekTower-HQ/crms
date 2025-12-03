@@ -14,7 +14,7 @@ const faqs = [
   {
     question: "What infrastructure is needed?",
     answer:
-      "CRMS is designed for low-resource environments. You need a server (cloud or on-premise) running PostgreSQL, and client devices can be any modern browser or even feature phones via USSD. The system works offline and syncs when connectivity is available, so reliable internet isn't required for day-to-day operations.",
+      "CRMS is designed for low-resource environments. You need a server (cloud or on-premise) running PostgreSQL, and client devices can be any modern browser, feature phones via USSD, or smartphones via WhatsApp. The system works offline and syncs when connectivity is available, so reliable internet isn't required for day-to-day operations.",
   },
   {
     question: "Is training provided?",

@@ -82,8 +82,8 @@ export function HeroSection() {
                 <div className="text-sm text-gray-500 font-medium">Test Cases</div>
               </div>
               <div className="text-center lg:text-left pl-8 border-l border-gray-200">
-                <div className="text-3xl font-bold text-gray-900">USSD</div>
-                <div className="text-sm text-gray-500 font-medium">Feature Phone Support</div>
+                <div className="text-3xl font-bold text-gray-900">2 Channels</div>
+                <div className="text-sm text-gray-500 font-medium">USSD & WhatsApp</div>
               </div>
             </div>
           </div>

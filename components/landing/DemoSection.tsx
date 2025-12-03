@@ -43,6 +43,16 @@ const screenshots = [
     title: "Mobile Ready",
     description: "Progressive Web App works on any device",
   },
+  {
+    src: "/sample_screens/USSD.png",
+    title: "USSD Field Tool",
+    description: "Access CRMS from any feature phone via USSD - no smartphone required",
+  },
+  {
+    src: "/sample_screens/whatsapp.jpg",
+    title: "WhatsApp Field Tool",
+    description: "Perform wanted person checks and queries via WhatsApp on smartphones",
+  },
 ];
 
 export function DemoSection() {
