@@ -54,6 +54,7 @@ model Officer {
   persons           Person[]
   sessions          Session[]
   ussdQueryLogs     USSDQueryLog[]
+  whatsappSessions  WhatsAppSession[]  @relation("WhatsAppSessions")
 
   @@index([badge])
   @@index([stationId])
@@ -446,4 +447,27 @@ model Vehicle {
   @@index([ownerNIN])
   @@index([stationId])
   @@map("vehicles")
+}
+
+// ==================== WHATSAPP (Phase 8) ====================
+
+model WhatsAppSession {
+  id                String    @id @default(uuid())
+  phoneNumber       String    @unique  // E.164 format (+2327812345678)
+  officerId         String?
+  officer           Officer?  @relation("WhatsAppSessions", fields: [officerId], references: [id], onDelete: Cascade)
+  state             String    @default("MAIN_MENU")  // MAIN_MENU, AWAITING_SEARCH, AWAITING_PIN, RESULT_SENT
+  selectedQueryType String?   // "wanted", "missing", "background", "vehicle", "stats"
+  searchTerm        String?   // NIN or license plate (stored before PIN validation)
+  queryData         Json?     // Additional context if needed
+  pinAttempts       Int       @default(0)
+  expiresAt         DateTime
+  lastActivityAt    DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([phoneNumber])
+  @@index([officerId])
+  @@index([expiresAt])
+  @@map("whatsapp_sessions")
 }

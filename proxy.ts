@@ -19,6 +19,7 @@ const PUBLIC_ROUTES = [
   "/login",
   "/api/auth",
   "/api/ussd", // USSD endpoints for feature phones
+  "/api/whatsapp", // WhatsApp endpoints for WhatsApp
   "/manifest.json",
   "/sw.js",
   "/workbox-",
