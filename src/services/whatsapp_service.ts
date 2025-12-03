@@ -114,8 +114,6 @@ async function handleMessage(
   // Step 3: Get or create session
   const session = await whatsappSessionRepository.getOrCreate(phoneNumber);
 
-  console.log("session", session);
-
   // Step 4: Parse user input
   const input = parseInput(message);
 
