@@ -28,6 +28,10 @@ import { IAmberAlertRepository } from "@/src/domain/interfaces/repositories/IAmb
 import { IWantedPersonRepository } from "@/src/domain/interfaces/repositories/IWantedPersonRepository";
 import { IVehicleRepository } from "@/src/domain/interfaces/repositories/IVehicleRepository";
 import { IUSSDSessionRepository } from "@/src/domain/interfaces/repositories/IUSSDSessionRepository";
+import { IWhatsAppSessionRepository } from "@/src/domain/interfaces/repositories/IWhatsAppSessionRepository";
+
+// Service Interfaces
+import { IFieldCheckService } from "@/src/domain/interfaces/services/IFieldCheckService";
 
 // Repository Implementations
 import { OfficerRepository } from "@/src/repositories/implementations/OfficerRepository";
@@ -44,6 +48,7 @@ import { AmberAlertRepository } from "@/src/repositories/implementations/AmberAl
 import { WantedPersonRepository } from "@/src/repositories/implementations/WantedPersonRepository";
 import { VehicleRepository } from "@/src/repositories/implementations/VehicleRepository";
 import { USSDSessionRepository } from "@/src/repositories/implementations/USSDSessionRepository";
+import { WhatsAppSessionRepository } from "@/src/repositories/implementations/WhatsAppSessionRepository";
 
 // Services
 import { AuthService } from "@/src/services/AuthService";
@@ -63,6 +68,7 @@ import { StationService } from "@/src/services/StationService";
 import { RoleService } from "@/src/services/RoleService";
 import { USSDService } from "@/src/services/USSDService";
 import { CountryConfigService } from "@/src/services/CountryConfigService";
+import { FieldCheckService } from "@/src/services/FieldCheckService";
 
 /**
  * Application Dependency Injection Container
@@ -92,6 +98,7 @@ export class Container {
   public readonly wantedPersonRepository: IWantedPersonRepository;
   public readonly vehicleRepository: IVehicleRepository;
   public readonly ussdSessionRepository: IUSSDSessionRepository;
+  public readonly whatsappSessionRepository: IWhatsAppSessionRepository;
 
   // Services
   public readonly authService: AuthService;
@@ -110,6 +117,7 @@ export class Container {
   public readonly stationService: StationService;
   public readonly roleService: RoleService;
   public readonly ussdService: USSDService;
+  public readonly fieldCheckService: IFieldCheckService;
 
   private constructor() {
     // Initialize Prisma Client
@@ -133,6 +141,7 @@ export class Container {
     this.wantedPersonRepository = new WantedPersonRepository(this.prismaClient);
     this.vehicleRepository = new VehicleRepository(this.prismaClient);
     this.ussdSessionRepository = new USSDSessionRepository();
+    this.whatsappSessionRepository = new WhatsAppSessionRepository(this.prismaClient);
 
     // Initialize Services with injected dependencies
     this.authService = new AuthService(
@@ -234,6 +243,17 @@ export class Container {
       this.auditLogRepository,
       this.prismaClient,
       this.countryConfigService
+    );
+
+    // Phase 8: Field Check Service (shared between USSD and WhatsApp)
+    this.fieldCheckService = new FieldCheckService(
+      this.prismaClient,
+      this.officerRepository,
+      this.personRepository,
+      this.vehicleRepository,
+      this.wantedPersonRepository,
+      this.caseRepository,
+      this.auditLogRepository
     );
   }
 

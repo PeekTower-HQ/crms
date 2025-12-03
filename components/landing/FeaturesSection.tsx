@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Bell,
   Smartphone,
+  MessageCircle,
 } from "lucide-react";
 import { FeatureCard } from "./FeatureCard";
 import { useInView } from "./hooks/useInView";
@@ -48,6 +49,12 @@ const features = [
     title: "USSD Support",
     description:
       "Full system access via feature phones. No smartphone or data plan required - works on any 2G network.",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp Integration",
+    description:
+      "Field officers can perform wanted person checks and queries via WhatsApp on smartphones.",
   },
 ];
 

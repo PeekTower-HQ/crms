@@ -36,6 +36,7 @@ CRMS is a **reusable, configurable open-source platform** designed for law enfor
 - 👥 **Role-Based Access Control (RBAC)** - 6 roles with granular permissions
 - 📱 **Progressive Web App (PWA)** - Works offline with service workers and IndexedDB
 - 🌐 **USSD Support** - Background checks via feature phones (no smartphone required)
+- 📱 **WhatsApp Integration** - Field checks via WhatsApp for smartphone users
 - 📊 **Comprehensive Audit Logging** - Immutable audit trails for all actions
 - 🔒 **End-to-End Encryption** - AES-256 for PII, TLS 1.3 in transit
 - 🚀 **Optimized for 2G/3G Networks** - Minimal data usage, offline-first
@@ -149,12 +150,20 @@ CRMS is designed as a **public good** to empower law enforcement agencies across
 - **Sync Queue**: Auto-sync when connection restored
 - **Conflict Resolution**: Last-write-wins with manual merge for conflicts
 
-### 8. USSD Integration (Africa's Talking / Twilio)
+### 8. Field Tools (USSD & WhatsApp)
 
+**USSD (Feature Phones):**
 - **Background Checks**: `*123*1*NIN#` (country-specific shortcode)
 - **Case Status**: `*123*2*CaseNumber#`
 - **Wanted Persons**: `*123*3#` (search by name)
 - **Works on Feature Phones**: No smartphone or data plan required
+
+**WhatsApp (Smartphones):**
+- Send any message to activate the CRMS bot
+- Interactive list menus for query selection
+- Same features: Wanted, Missing, Background, Vehicle checks
+- Officer statistics and audit logging
+- 5-minute session timeout for security
 
 ---
 
@@ -265,9 +274,9 @@ http://localhost:3000
 - **S3-Compatible** (MinIO for self-hosted, AWS S3 for cloud)
 - **AES-256 Encryption** (PII data at rest)
 
-### USSD
-- **Africa's Talking** (preferred for Africa)
-- **Twilio** (alternative)
+### Field Messaging
+- **USSD:** Africa's Talking (preferred), Twilio (alternative)
+- **WhatsApp:** Whapi.cloud
 
 ---
 
@@ -396,7 +405,7 @@ If you find this project useful, please give us a star ⭐ to help others discov
 | Phase 4 | ✅ Complete | Case, Person, Evidence Management |
 | Phase 5 | ✅ Complete | Audit Logging & Security |
 | Phase 6 | ✅ Complete | Background Checks & Alerts |
-| Phase 7 | ✅ Complete | USSD Integration |
+| Phase 7 | ✅ Complete | USSD & WhatsApp Integration |
 | Phase 8 | ✅ Complete | Dashboards & Reporting |
 | Phase 9 | ✅ Complete | PWA Optimization |
 | Phase 10 | ✅ Complete | MFA Implementation |
