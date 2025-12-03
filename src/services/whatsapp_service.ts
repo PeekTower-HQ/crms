@@ -59,7 +59,6 @@ export async function init(body: unknown): Promise<void> {
   const msg = message?.[0];
 
   if (!msg) {
-    console.log("[WhatsAppService] No message in webhook body");
     return;
   }
 
