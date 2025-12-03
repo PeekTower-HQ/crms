@@ -32,6 +32,7 @@ export class AmberAlertRepository
   /**
    * Map Prisma AmberAlert to domain entity
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private toDomain(data: any): AmberAlert {
     return new AmberAlert(
       data.id,
@@ -67,7 +68,7 @@ export class AmberAlertRepository
   ): Prisma.AmberAlertWhereInput {
     if (!filters) return {};
 
-    const where: any = {};
+    const where: Prisma.AmberAlertWhereInput = {};
 
     if (filters.status) {
       where.status = filters.status;
@@ -81,20 +82,24 @@ export class AmberAlertRepository
       where.gender = filters.gender;
     }
 
-    if (filters.minAge !== undefined) {
-      where.age = { gte: filters.minAge };
+    if (filters.minAge !== undefined || filters.maxAge !== undefined) {
+      where.age = {};
+      if (filters.minAge !== undefined) {
+        where.age.gte = filters.minAge;
+      }
+      if (filters.maxAge !== undefined) {
+        where.age.lte = filters.maxAge;
+      }
     }
 
-    if (filters.maxAge !== undefined) {
-      where.age = { ...where.age, lte: filters.maxAge };
-    }
-
-    if (filters.fromDate) {
-      where.createdAt = { gte: filters.fromDate };
-    }
-
-    if (filters.toDate) {
-      where.createdAt = { ...where.createdAt, lte: filters.toDate };
+    if (filters.fromDate || filters.toDate) {
+      where.createdAt = {};
+      if (filters.fromDate) {
+        where.createdAt.gte = filters.fromDate;
+      }
+      if (filters.toDate) {
+        where.createdAt.lte = filters.toDate;
+      }
     }
 
     if (filters.isActive !== undefined) {
@@ -511,14 +516,16 @@ export class AmberAlertRepository
     toDate?: Date
   ): Promise<AmberAlertStatistics> {
     return this.execute(async () => {
-      const where: any = {};
+      const where: Prisma.AmberAlertWhereInput = {};
 
-      if (fromDate) {
-        where.createdAt = { gte: fromDate };
-      }
-
-      if (toDate) {
-        where.createdAt = { ...where.createdAt, lte: toDate };
+      if (fromDate || toDate) {
+        where.createdAt = {};
+        if (fromDate) {
+          where.createdAt.gte = fromDate;
+        }
+        if (toDate) {
+          where.createdAt.lte = toDate;
+        }
       }
 
       // Get total and counts by status
