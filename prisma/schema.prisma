@@ -67,6 +67,7 @@ model Officer {
   sessions          Session[]
   ussdQueryLogs     USSDQueryLog[]
   whatsappSessions  WhatsAppSession[]  @relation("WhatsAppSessions")
+  whatsappNewsletters WhatsAppNewsletter[] @relation("NewsletterCreatedBy")
 
   @@index([badge])
   @@index([nationalId])
@@ -507,4 +508,29 @@ model WhatsAppSession {
   @@index([officerId])
   @@index([expiresAt])
   @@map("whatsapp_sessions")
+}
+
+model WhatsAppNewsletter {
+  id              String    @id @default(uuid())
+  channelId       String    @unique  // WhatsApp channel ID (e.g., "120363401094307597@newsletter")
+  name            String
+  description     String?
+  pictureUrl      String?   // Newsletter profile picture URL
+  status          String    @default("active") // "active", "inactive", "deleted"
+  subscriberCount Int?      @default(0)
+
+  // Whapi metadata
+  reactionsEnabled Boolean  @default(true)
+
+  // CRMS metadata
+  createdById     String
+  createdBy       Officer   @relation("NewsletterCreatedBy", fields: [createdById], references: [id])
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([channelId])
+  @@index([createdById])
+  @@index([status])
+  @@map("whatsapp_newsletters")
 }
