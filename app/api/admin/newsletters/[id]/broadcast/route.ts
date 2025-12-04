@@ -19,15 +19,16 @@ import {
   NotFoundError,
   ForbiddenError,
 } from "@/src/lib/errors";
+import type { BroadcastMessageInput } from "@/src/services/NewsletterService";
 
 /**
  * POST /api/admin/newsletters/[id]/broadcast
  * Broadcast a message to newsletter subscribers
  *
- * Request body:
- * {
- *   message: string (required)
- * }
+ * Supports:
+ * - Text broadcast: { type: "text", message: string }
+ * - Link preview: { type: "link_preview", body: string, title?: string, media?: string }
+ * - Legacy format: { message: string } (treated as text)
  */
 export async function POST(
   request: NextRequest,
@@ -50,10 +51,43 @@ export async function POST(
     const { id } = await params;
     const body = await request.json();
 
-    // Validate message
-    if (!body.message) {
+    // Transform input to BroadcastMessageInput format
+    let broadcastInput: BroadcastMessageInput;
+
+    if (body.type === "text") {
+      // NEW FORMAT: Explicit text broadcast
+      broadcastInput = {
+        type: "text",
+        message: body.message,
+      };
+    } else if (body.type === "link_preview") {
+      // NEW FORMAT: Link preview broadcast
+      broadcastInput = {
+        type: "link_preview",
+        body: body.body,
+        title: body.title,
+        media: body.media,
+      };
+    } else if (body.message && !body.type) {
+      // LEGACY FORMAT: Backward compatibility (treat as text)
+      broadcastInput = {
+        type: "text",
+        message: body.message,
+      };
+    } else {
       return NextResponse.json(
-        { error: "Message is required" },
+        {
+          error: "Invalid request format. Must include 'type' field or 'message' field.",
+          examples: {
+            text: { type: "text", message: "Your message" },
+            link_preview: {
+              type: "link_preview",
+              body: "Check this out: https://example.com",
+              title: "Optional Title",
+              media: "https://example.com/image.jpg"
+            }
+          }
+        },
         { status: 400 }
       );
     }
@@ -65,7 +99,7 @@ export async function POST(
 
     const result = await container.newsletterService.broadcastMessage(
       id,
-      { message: body.message },
+      broadcastInput,
       session.user.id,
       ipAddress
     );
@@ -73,7 +107,7 @@ export async function POST(
     return NextResponse.json({
       success: result.success,
       messageId: result.messageId,
-      message: "Broadcast sent successfully",
+      message: `Broadcast sent successfully (type: ${broadcastInput.type})`,
     });
   } catch (error) {
     console.error("POST /api/admin/newsletters/[id]/broadcast error:", error);

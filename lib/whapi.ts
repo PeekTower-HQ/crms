@@ -5,6 +5,42 @@
  * Includes proper error handling, logging, and retry logic.
  */
 
+/**
+ * Fetch an image from a URL and convert it to base64 data URI
+ * @param imageUrl - Public URL of the image
+ * @returns Base64 data URI (e.g., "data:image/jpeg;base64,...")
+ */
+async function fetchImageAsBase64(imageUrl: string): Promise<string> {
+  try {
+    console.log(`[Whapi] Fetching image from URL: ${imageUrl.substring(0, 50)}...`);
+
+    const response = await fetch(imageUrl);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
+    }
+
+    // Get the image as an ArrayBuffer
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Get content type from response header or default to jpeg
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+
+    // Convert to base64
+    const base64 = buffer.toString('base64');
+    const dataUri = `data:${contentType};base64,${base64}`;
+
+    console.log(`[Whapi] Image converted to base64 (${buffer.length} bytes, ${contentType})`);
+
+    return dataUri;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error(`[Whapi] Failed to fetch and convert image: ${errorMessage}`);
+    throw new Error(`Failed to convert image URL to base64: ${errorMessage}`);
+  }
+}
+
 const whapiUrl = process.env.WHAPI_URL;
 const whapiToken = process.env.WHAPI_TOKEN;
 const whapiImageUrl = `${whapiUrl}/messages/image`;
@@ -234,7 +270,18 @@ export async function createNewsletter(
   }
 
   if (pictureUrl) {
-    payload.newsletter_pic = pictureUrl;
+    // Convert URL to base64 if it's an HTTP(S) URL
+    if (pictureUrl.startsWith('http://') || pictureUrl.startsWith('https://')) {
+      console.log("[Whapi] Converting image URL to base64...");
+      const base64Image = await fetchImageAsBase64(pictureUrl);
+      payload.newsletter_pic = base64Image;
+    } else if (pictureUrl.startsWith('data:')) {
+      // Already base64, use as is
+      console.log("[Whapi] Image already in base64 format");
+      payload.newsletter_pic = pictureUrl;
+    } else {
+      throw new Error("Invalid picture URL: must be an HTTP(S) URL or base64 data URI");
+    }
   }
 
   console.log("[Whapi] createNewsletter payload:", {
@@ -305,7 +352,18 @@ export async function updateNewsletter(
   }
 
   if (updates.pictureUrl !== undefined) {
-    payload.newsletter_pic = updates.pictureUrl;
+    // Convert URL to base64 if it's an HTTP(S) URL
+    if (updates.pictureUrl.startsWith('http://') || updates.pictureUrl.startsWith('https://')) {
+      console.log("[Whapi] Converting image URL to base64...");
+      const base64Image = await fetchImageAsBase64(updates.pictureUrl);
+      payload.newsletter_pic = base64Image;
+    } else if (updates.pictureUrl.startsWith('data:')) {
+      // Already base64, use as is
+      console.log("[Whapi] Image already in base64 format");
+      payload.newsletter_pic = updates.pictureUrl;
+    } else {
+      throw new Error("Invalid picture URL: must be an HTTP(S) URL or base64 data URI");
+    }
   }
 
   if (updates.reactions !== undefined) {
@@ -354,6 +412,66 @@ export async function sendNewsletterMessage(
 }
 
 /**
+ * Send a link preview message to a WhatsApp Newsletter/Channel
+ *
+ * Uses Whapi's /messages/link_preview endpoint for rich previews
+ * Body MUST contain at least one URL for the preview to work
+ *
+ * @param newsletterId - Newsletter ID (format: "id@newsletter")
+ * @param body - Message body containing at least one URL (required)
+ * @param title - Preview title (optional)
+ * @param media - Image URL for preview (optional)
+ * @returns WhapiResult with message ID
+ */
+export async function sendNewsletterLinkPreview(
+  newsletterId: string,
+  body: string,
+  title?: string,
+  media?: string
+): Promise<WhapiResult> {
+  // Validate body contains URL
+  if (!body || body.trim().length === 0) {
+    return {
+      success: false,
+      error: "Body text is required for link preview messages",
+    };
+  }
+
+  // Simple URL detection
+  if (!body.match(/https?:\/\//i)) {
+    return {
+      success: false,
+      error: "Body text must contain at least one URL for link preview",
+    };
+  }
+
+  // Ensure newsletterId has @newsletter suffix
+  const to = newsletterId.includes("@newsletter")
+    ? newsletterId
+    : `${newsletterId}@newsletter`;
+
+  // Build payload
+  const payload: Record<string, unknown> = {
+    to,
+    body, // Required, must contain URL
+  };
+
+  // Add optional fields
+  if (title && title.trim().length > 0) {
+    payload.title = title;
+  }
+
+  if (media && media.trim().length > 0) {
+    payload.media = media;
+  }
+
+  // Use link_preview endpoint
+  const linkPreviewUrl = `${whapiUrl}/messages/link_preview`;
+
+  return sendRequest(linkPreviewUrl, payload, "newsletter link preview");
+}
+
+/**
  * Internal helper for newsletter API requests
  * Handles GET, POST, PATCH, DELETE methods with retry logic
  */
@@ -399,7 +517,7 @@ async function sendNewsletterRequest(
           ...payload,
           newsletter_pic: payload.newsletter_pic ? `${String(payload.newsletter_pic).substring(0, 50)}...` : undefined,
         } : null,
-        bodyLength: options.body ? options.body.length : 0,
+        bodyLength: options.body ? (typeof options.body === 'string' ? options.body.length : 'N/A') : 0,
       });
 
       const response = await fetch(url, options);

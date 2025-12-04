@@ -36,11 +36,34 @@ export interface UpdateNewsletterInput {
 }
 
 /**
- * Input for broadcasting a message
+ * Base broadcast input (common fields)
  */
-export interface BroadcastMessageInput {
+interface BaseBroadcastInput {
+  type: "text" | "link_preview";
+}
+
+/**
+ * Text-only broadcast (existing behavior)
+ */
+export interface TextBroadcastInput extends BaseBroadcastInput {
+  type: "text";
   message: string;
 }
+
+/**
+ * Rich link preview broadcast (new)
+ */
+export interface LinkPreviewBroadcastInput extends BaseBroadcastInput {
+  type: "link_preview";
+  body: string;      // MUST contain at least one URL
+  title?: string;    // Optional preview title
+  media?: string;    // Optional image URL
+}
+
+/**
+ * Unified broadcast input type (discriminated union)
+ */
+export type BroadcastMessageInput = TextBroadcastInput | LinkPreviewBroadcastInput;
 
 /**
  * Newsletter Service
@@ -337,10 +360,15 @@ export class NewsletterService {
   /**
    * Broadcast message to newsletter
    *
+   * Supports two broadcast types:
+   * 1. Text: Simple text message (existing)
+   * 2. Link Preview: Rich preview with title, body (must contain URL), and optional media
+   *
    * Steps:
    * 1. Validate newsletter can broadcast
-   * 2. Send message via Whapi API
-   * 3. Audit log
+   * 2. Validate input based on broadcast type
+   * 3. Send message via appropriate Whapi API endpoint
+   * 4. Audit log (capture broadcast type)
    */
   async broadcastMessage(
     id: string,
@@ -357,18 +385,62 @@ export class NewsletterService {
       throw new ForbiddenError(canBroadcast.reason || "Cannot broadcast to newsletter");
     }
 
-    // Validate message
-    if (!input.message || input.message.trim().length === 0) {
-      throw new ValidationError("Message is required");
-    }
-
     try {
-      // Send via Whapi API
-      const whapiResult = await whapi.sendNewsletterMessage(
-        newsletter.channelId,
-        input.message
-      );
+      let whapiResult: { success: boolean; messageId?: string; error?: string };
+      let auditDetails: Record<string, unknown>;
 
+      // Route to appropriate broadcast function based on type
+      if (input.type === "text") {
+        // TEXT BROADCAST (existing behavior)
+
+        // Validate message
+        if (!input.message || input.message.trim().length === 0) {
+          throw new ValidationError("Message is required for text broadcasts");
+        }
+
+        // Send via text endpoint
+        whapiResult = await whapi.sendNewsletterMessage(
+          newsletter.channelId,
+          input.message
+        );
+
+        auditDetails = {
+          broadcastType: "text",
+          messageLength: input.message.length,
+          messageId: whapiResult.messageId,
+        };
+
+      } else if (input.type === "link_preview") {
+        // LINK PREVIEW BROADCAST (new)
+
+        // Import validation utility
+        const { validateLinkPreviewInput } = await import("@/src/lib/validation");
+
+        // Validate link preview input (throws ValidationError if invalid)
+        validateLinkPreviewInput(input.body, input.title, input.media);
+
+        // Send via link preview endpoint
+        whapiResult = await whapi.sendNewsletterLinkPreview(
+          newsletter.channelId,
+          input.body,
+          input.title,
+          input.media
+        );
+
+        auditDetails = {
+          broadcastType: "link_preview",
+          bodyLength: input.body.length,
+          hasTitle: !!input.title,
+          hasMedia: !!input.media,
+          messageId: whapiResult.messageId,
+        };
+
+      } else {
+        // TypeScript should prevent this, but handle gracefully
+        throw new ValidationError(`Unknown broadcast type: ${(input as { type?: string }).type || 'unknown'}`);
+      }
+
+      // Check if broadcast succeeded
       if (!whapiResult.success) {
         throw new Error(whapiResult.error || "Failed to send newsletter message");
       }
@@ -380,10 +452,7 @@ export class NewsletterService {
         officerId,
         action: "broadcast",
         success: true,
-        details: {
-          messageLength: input.message.length,
-          messageId: whapiResult.messageId,
-        },
+        details: auditDetails,
         ipAddress,
       });
 
@@ -400,6 +469,7 @@ export class NewsletterService {
         action: "broadcast",
         success: false,
         details: {
+          broadcastType: input.type,
           error: error instanceof Error ? error.message : "Unknown error",
         },
         ipAddress,
