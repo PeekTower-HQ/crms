@@ -53,6 +53,11 @@ const screenshots = [
     title: "WhatsApp Field Tool",
     description: "Perform wanted person checks and queries via WhatsApp on smartphones",
   },
+  {
+    src: "/sample_screens/channel.png",
+    title: "WhatsApp Newsletters",
+    description: "Broadcast public safety alerts, wanted persons, amber alerts, and community updates via WhatsApp channels",
+  },
 ];
 
 export function DemoSection() {
