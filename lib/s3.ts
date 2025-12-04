@@ -164,7 +164,7 @@ export async function fileExists(key: string): Promise<boolean> {
     await s3Client.send(command);
     return true;
   } catch (error: unknown) {
-    if (error?.name === "NotFound" || error?.$metadata?.httpStatusCode === 404) {
+    if ((error as any)?.name === "NotFound" || (error as any)?.$metadata?.httpStatusCode === 404) {
       return false;
     }
     throw error;

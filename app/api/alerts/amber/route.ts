@@ -16,6 +16,8 @@ import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { ValidationError, ForbiddenError } from "@/src/lib/errors";
+import type { AmberAlertFilters } from "@/src/domain/interfaces/repositories/IAmberAlertRepository";
+import type { AmberAlertStatus } from "@/src/domain/entities/AmberAlert";
 
 /**
  * GET /api/alerts/amber
@@ -58,15 +60,11 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: {
-      status?: string;
-      isActive?: boolean;
-      urgencyLevel?: string;
-    } = {};
+    const filters: AmberAlertFilters = {};
 
-    if (status) filters.status = status;
+    if (status) filters.status = status as AmberAlertStatus;
     if (isActive !== null) filters.isActive = isActive === "true";
-    if (urgencyLevel) filters.urgencyLevel = urgencyLevel;
+    if (urgencyLevel) filters.urgencyLevel = urgencyLevel as "critical" | "high" | "medium";
 
     // Get alerts
     const result = await container.alertService.searchAmberAlerts(

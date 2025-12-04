@@ -84,9 +84,9 @@ export async function GET(request: NextRequest) {
     );
 
     // Convert stream to buffer
-    const chunks: Uint8Array[] = [];
+    const chunks: Buffer[] = [];
     for await (const chunk of pdfStream) {
-      chunks.push(chunk);
+      chunks.push(Buffer.from(chunk));
     }
     const pdfBuffer = Buffer.concat(chunks);
 
@@ -116,16 +116,19 @@ export async function GET(request: NextRequest) {
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message, reportType: "compliance" },
+        details: {
+          error: error instanceof Error ? error.message : String(error),
+          reportType: "compliance"
+        },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }
 
-    if (error.name === "ValidationError") {
+    if (error instanceof Error && error.name === "ValidationError") {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    if (error.name === "ForbiddenError") {
+    if (error instanceof Error && error.name === "ForbiddenError") {
       return NextResponse.json({ error: error.message }, { status: 403 });
     }
 

@@ -26,7 +26,7 @@ interface AmberAlertUSSDFormat {
   age: number | null;
   message: string;
   urgency: string;
-  daysMissing: number;
+  daysMissing: number | null;
 }
 
 interface AmberAlertFullFormat {
@@ -40,9 +40,9 @@ interface AmberAlertFullFormat {
   lastSeenLocation: string | null;
   lastSeenDate: string | null;
   contactPhone: string;
-  publishedAt: Date | null;
+  publishedAt: string | null;
   urgency: string;
-  daysMissing: number;
+  daysMissing: number | null;
   broadcastMessage: string;
 }
 
@@ -68,7 +68,7 @@ interface WantedPersonFullFormat {
   rewardAmount: number | null;
   contactPhone: string;
   isRegionalAlert: boolean;
-  issuedDate: Date;
+  issuedDate: string;
   broadcastMessage: string;
 }
 
@@ -136,9 +136,9 @@ export async function GET(request: NextRequest) {
           description: alert.description,
           photoUrl: alert.photoUrl,
           lastSeenLocation: alert.lastSeenLocation,
-          lastSeenDate: alert.lastSeenDate,
+          lastSeenDate: alert.lastSeenDate ? alert.lastSeenDate.toISOString() : null,
           contactPhone: alert.contactPhone,
-          publishedAt: alert.publishedAt,
+          publishedAt: alert.publishedAt ? alert.publishedAt.toISOString() : null,
           urgency: alert.getUrgencyLevel(),
           daysMissing: alert.getDaysMissing(),
           broadcastMessage: alert.getBroadcastMessage(),
@@ -167,16 +167,16 @@ export async function GET(request: NextRequest) {
           type: "wanted",
           personName: wp.personName,
           warrantNumber: wp.warrantNumber,
-          charges: wp.charges,
+          charges: wp.charges.map((c) => c.charge),
           dangerLevel: wp.dangerLevel,
           physicalDescription: wp.physicalDescription,
           photoUrl: wp.photoUrl,
           lastSeenLocation: wp.lastSeenLocation,
-          lastSeenDate: wp.lastSeenDate,
+          lastSeenDate: wp.lastSeenDate ? wp.lastSeenDate.toISOString() : null,
           rewardAmount: wp.rewardAmount,
           contactPhone: wp.contactPhone,
           isRegionalAlert: wp.isRegionalAlert,
-          issuedDate: wp.issuedDate,
+          issuedDate: wp.issuedDate.toISOString(),
           broadcastMessage: wp.getBroadcastMessage(),
         }));
       }

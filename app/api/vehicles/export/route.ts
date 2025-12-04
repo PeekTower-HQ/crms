@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
   } catch (error: unknown) {
     console.error("[Vehicle Export Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

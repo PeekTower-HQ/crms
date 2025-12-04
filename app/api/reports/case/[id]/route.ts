@@ -52,9 +52,9 @@ export async function GET(
     );
 
     // Convert stream to buffer
-    const chunks: Uint8Array[] = [];
+    const chunks: Buffer[] = [];
     for await (const chunk of pdfStream) {
-      chunks.push(chunk);
+      chunks.push(Buffer.from(chunk));
     }
     const pdfBuffer = Buffer.concat(chunks);
 
@@ -81,16 +81,19 @@ export async function GET(
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message, reportType: "case" },
+        details: {
+          error: error instanceof Error ? error.message : String(error),
+          reportType: "case"
+        },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }
 
-    if (error.name === "NotFoundError") {
+    if (error instanceof Error && error.name === "NotFoundError") {
       return NextResponse.json({ error: error.message }, { status: 404 });
     }
 
-    if (error.name === "ForbiddenError") {
+    if (error instanceof Error && error.name === "ForbiddenError") {
       return NextResponse.json({ error: error.message }, { status: 403 });
     }
 

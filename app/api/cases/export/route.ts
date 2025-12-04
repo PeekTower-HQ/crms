@@ -21,6 +21,7 @@ import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { unparse } from "papaparse";
+import type { CaseWithRelations } from "@/src/domain/interfaces/repositories/ICaseRepository";
 
 export async function GET(request: NextRequest) {
   try {
@@ -78,22 +79,20 @@ export async function GET(request: NextRequest) {
 
     // Fetch cases
     const caseRepo = container.caseRepository;
-    const result = await caseRepo.findAll(filters);
-    const cases = (result as Record<string, unknown>).items || result;
+    const cases: CaseWithRelations[] = await caseRepo.findAll(filters);
 
     // Transform to CSV-friendly format
     const csvData = cases.map((c) => ({
       "Case Number": c.caseNumber,
       Title: c.title,
-      Description: c.description,
+      Description: c.description || "N/A",
       Category: c.category,
       Severity: c.severity,
       Status: c.status,
       "Station ID": c.stationId,
-      "Assigned Officer": c.assignedOfficerId || "N/A",
+      "Assigned Officer": c.officerId,
       "Created At": c.createdAt.toISOString(),
       "Updated At": c.updatedAt.toISOString(),
-      "Closed At": c.closedAt ? c.closedAt.toISOString() : "N/A",
     }));
 
     // Generate CSV
@@ -135,7 +134,7 @@ export async function GET(request: NextRequest) {
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message },
+        details: { error: error instanceof Error ? error.message : String(error) },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }

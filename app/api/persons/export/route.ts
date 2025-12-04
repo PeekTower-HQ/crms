@@ -20,6 +20,7 @@ import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { unparse } from "papaparse";
+import type { Person } from "@/src/domain/entities/Person";
 
 export async function GET(request: NextRequest) {
   try {
@@ -59,24 +60,24 @@ export async function GET(request: NextRequest) {
 
     // Fetch persons
     const personRepo = container.personRepository;
-    const result = await personRepo.findAll(filters);
-    const persons = (result as Record<string, unknown>).items || result;
+    const persons: Person[] = await personRepo.findAll(filters);
 
     // Transform to CSV-friendly format
     // IMPORTANT: Do NOT include encrypted PII (addresses, phone, email)
     const csvData = persons.map((p) => ({
       "Person ID": p.id,
-      NIN: p.nin,
+      NIN: p.nin || "N/A",
       "First Name": p.firstName,
       "Middle Name": p.middleName || "N/A",
       "Last Name": p.lastName,
-      "Date of Birth": p.dateOfBirth.toISOString().split("T")[0],
+      "Date of Birth": p.dateOfBirth ? p.dateOfBirth.toISOString().split("T")[0] : "N/A",
       Gender: p.gender,
       Nationality: p.nationality,
       "Is Wanted": p.isWanted ? "Yes" : "No",
-      "Is High Risk": p.isHighRisk ? "Yes" : "No",
-      "Has Biometrics": p.hasBiometrics ? "Yes" : "No",
-      "Aliases": p.aliases.join("; ") || "None",
+      "Risk Level": p.riskLevel || "N/A",
+      "Is Deceased or Missing": p.isDeceasedOrMissing ? "Yes" : "No",
+      "Has Biometrics": p.hasBiometricData() ? "Yes" : "No",
+      "Aliases": p.alias.join("; ") || "None",
       "Created At": p.createdAt.toISOString(),
       "Updated At": p.updatedAt.toISOString(),
       // PII fields are intentionally EXCLUDED for security
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message },
+        details: { error: error instanceof Error ? error.message : String(error) },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }
