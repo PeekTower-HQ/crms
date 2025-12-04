@@ -85,11 +85,13 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json({ metrics }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Officer productivity analytics error:", error);
 
     // Audit failure
     const session = await getServerSession(authOptions);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+
     if (session?.user) {
       await container.auditLogRepository.create({
         entityType: "analytics",
@@ -98,12 +100,12 @@ export async function GET(request: NextRequest) {
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message },
+        details: { error: errorMessage },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }
 
-    if (error.name === "ValidationError") {
+    if (error instanceof Error && error.name === "ValidationError") {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 

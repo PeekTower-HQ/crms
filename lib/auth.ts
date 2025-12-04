@@ -235,7 +235,7 @@ export const authOptions: NextAuthOptions = {
   events: {
     async signIn({ user }) {
       // Audit log already created in AuthService
-      console.log(`Officer signed in: ${user.badge}`);
+      console.log(`Officer signed in: ${user.id}`);
     },
     async signOut({ token }) {
       // Log signout

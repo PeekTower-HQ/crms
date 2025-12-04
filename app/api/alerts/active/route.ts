@@ -18,6 +18,75 @@ import { NextRequest, NextResponse } from "next/server";
 import { container } from "@/src/di/container";
 
 /**
+ * Types for alert responses
+ */
+interface AmberAlertUSSDFormat {
+  id: string;
+  personName: string;
+  age: number | null;
+  message: string;
+  urgency: string;
+  daysMissing: number | null;
+}
+
+interface AmberAlertFullFormat {
+  id: string;
+  type: "amber";
+  personName: string;
+  age: number | null;
+  gender: string | null;
+  description: string;
+  photoUrl: string | null;
+  lastSeenLocation: string | null;
+  lastSeenDate: string | null;
+  contactPhone: string;
+  publishedAt: string | null;
+  urgency: string;
+  daysMissing: number | null;
+  broadcastMessage: string;
+}
+
+interface WantedPersonUSSDFormat {
+  id: string;
+  personName: string;
+  message: string;
+  dangerLevel: string;
+  reward: number | null;
+}
+
+interface WantedPersonFullFormat {
+  id: string;
+  type: "wanted";
+  personName: string;
+  warrantNumber: string;
+  charges: string[];
+  dangerLevel: string;
+  physicalDescription: string;
+  photoUrl: string | null;
+  lastSeenLocation: string | null;
+  lastSeenDate: string | null;
+  rewardAmount: number | null;
+  contactPhone: string;
+  isRegionalAlert: boolean;
+  issuedDate: string;
+  broadcastMessage: string;
+}
+
+interface ResponseCount {
+  amberAlerts: number;
+  wantedPersons: number;
+  total: number;
+}
+
+interface AlertResponse {
+  timestamp: string;
+  count: ResponseCount;
+  amberAlerts?: Array<AmberAlertUSSDFormat | AmberAlertFullFormat>;
+  wantedPersons?: Array<WantedPersonUSSDFormat | WantedPersonFullFormat>;
+  alerts?: Array<AmberAlertUSSDFormat | AmberAlertFullFormat | WantedPersonUSSDFormat | WantedPersonFullFormat>;
+}
+
+/**
  * GET /api/alerts/active
  * Get all active alerts (Amber Alerts + Wanted Persons)
  *
@@ -38,8 +107,8 @@ export async function GET(request: NextRequest) {
 
     const resultLimit = limit ? parseInt(limit) : 50;
 
-    let amberAlerts: any[] = [];
-    let wantedPersons: any[] = [];
+    let amberAlerts: Array<AmberAlertUSSDFormat | AmberAlertFullFormat> = [];
+    let wantedPersons: Array<WantedPersonUSSDFormat | WantedPersonFullFormat> = [];
 
     // Fetch Amber Alerts if requested
     if (type === "all" || type === "amber") {
@@ -67,9 +136,9 @@ export async function GET(request: NextRequest) {
           description: alert.description,
           photoUrl: alert.photoUrl,
           lastSeenLocation: alert.lastSeenLocation,
-          lastSeenDate: alert.lastSeenDate,
+          lastSeenDate: alert.lastSeenDate ? alert.lastSeenDate.toISOString() : null,
           contactPhone: alert.contactPhone,
-          publishedAt: alert.publishedAt,
+          publishedAt: alert.publishedAt ? alert.publishedAt.toISOString() : null,
           urgency: alert.getUrgencyLevel(),
           daysMissing: alert.getDaysMissing(),
           broadcastMessage: alert.getBroadcastMessage(),
@@ -98,23 +167,23 @@ export async function GET(request: NextRequest) {
           type: "wanted",
           personName: wp.personName,
           warrantNumber: wp.warrantNumber,
-          charges: wp.charges,
+          charges: wp.charges.map((c) => c.charge),
           dangerLevel: wp.dangerLevel,
           physicalDescription: wp.physicalDescription,
           photoUrl: wp.photoUrl,
           lastSeenLocation: wp.lastSeenLocation,
-          lastSeenDate: wp.lastSeenDate,
+          lastSeenDate: wp.lastSeenDate ? wp.lastSeenDate.toISOString() : null,
           rewardAmount: wp.rewardAmount,
           contactPhone: wp.contactPhone,
           isRegionalAlert: wp.isRegionalAlert,
-          issuedDate: wp.issuedDate,
+          issuedDate: wp.issuedDate.toISOString(),
           broadcastMessage: wp.getBroadcastMessage(),
         }));
       }
     }
 
     // Combine and return
-    const response: any = {
+    const response: AlertResponse = {
       timestamp: new Date().toISOString(),
       count: {
         amberAlerts: amberAlerts.length,

@@ -97,7 +97,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error removing person from case:", error);
 
     if (error instanceof NotFoundError) {

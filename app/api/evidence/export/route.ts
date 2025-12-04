@@ -22,6 +22,7 @@ import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { unparse } from "papaparse";
+import type { Evidence } from "@/src/domain/entities/Evidence";
 
 export async function GET(request: NextRequest) {
   try {
@@ -50,7 +51,7 @@ export async function GET(request: NextRequest) {
     const toDate = searchParams.get("toDate");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (caseId) filters.caseId = caseId;
     if (type) filters.type = type;
@@ -81,26 +82,25 @@ export async function GET(request: NextRequest) {
 
     // Fetch evidence
     const evidenceRepo = container.evidenceRepository;
-    const result = await evidenceRepo.findAll(filters);
-    const evidence = (result as any).items || result;
+    const evidence: Evidence[] = await evidenceRepo.findAll(filters);
 
     // Transform to CSV-friendly format
-    const csvData = evidence.map((e: any) => ({
+    const csvData = evidence.map((e) => ({
       "Evidence ID": e.id,
       "QR Code": e.qrCode,
       "Case ID": e.caseId,
       Description: e.description,
       Type: e.type,
+      Status: e.status,
       "Is Sealed": e.isSealed ? "Yes" : "No",
-      "Sealed By": e.sealedById || "N/A",
+      "Sealed By": e.sealedBy || "N/A",
       "Sealed At": e.sealedAt ? e.sealedAt.toISOString() : "N/A",
-      "In Court": e.inCourt ? "Yes" : "No",
-      "Collected By": e.collectedById,
-      Location: e.location,
+      "Collected By": e.collectedBy,
+      "Collected Date": e.collectedDate.toISOString(),
+      "Storage Location": e.storageLocation || "N/A",
       "File URL": e.fileUrl || "N/A",
       "File Hash": e.fileHash || "N/A",
       "Station ID": e.stationId,
-      "Collected At": e.collectedAt.toISOString(),
       "Created At": e.createdAt.toISOString(),
       "Updated At": e.updatedAt.toISOString(),
     }));
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="evidence-export-${new Date().toISOString().split("T")[0]}.csv"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Evidence export error:", error);
 
     // Audit failure
@@ -144,7 +144,7 @@ export async function GET(request: NextRequest) {
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message },
+        details: { error: error instanceof Error ? error.message : String(error) },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }

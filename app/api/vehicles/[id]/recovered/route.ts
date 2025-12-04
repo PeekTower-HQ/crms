@@ -27,10 +27,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       message: "Vehicle marked as recovered",
       vehicle,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Mark Recovered Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

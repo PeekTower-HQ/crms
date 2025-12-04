@@ -12,7 +12,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError } from "@/src/lib/errors";
+import type { CaseFilters } from "@/src/domain/interfaces/repositories/ICaseRepository";
+import type { CaseStatus, CaseCategory, CaseSeverity } from "@/src/domain/entities/Case";
 
 /**
  * GET /api/cases
@@ -39,13 +41,13 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {
+    const filters: CaseFilters = {
       stationId: session.user.stationId, // Filter by user's station
     };
 
-    if (status) filters.status = status;
-    if (category) filters.category = category;
-    if (severity) filters.severity = severity;
+    if (status) filters.status = status as CaseStatus;
+    if (category) filters.category = category as CaseCategory;
+    if (severity) filters.severity = severity as CaseSeverity;
     if (search) filters.search = search;
     if (limit) filters.limit = parseInt(limit);
     if (offset) filters.offset = parseInt(offset);

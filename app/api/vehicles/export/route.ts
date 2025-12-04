@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get("status");
     const stationId = searchParams.get("stationId");
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (status) where.status = status;
     if (stationId) where.stationId = stationId;
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
     // Generate CSV
     const headers = ["License Plate", "Type", "Make", "Model", "Year", "Color", "Status", "Owner Name", "Owner NIN", "Station"];
-    const rows = vehicles.map((v: any) => [
+    const rows = vehicles.map((v) => [
       v.licensePlate,
       v.vehicleType,
       v.make || "",
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       v.stationId,
     ]);
 
-    const csv = [headers, ...rows].map((row: any) => row.join(",")).join("\n");
+    const csv = [headers, ...rows].map((row) => row.join(",")).join("\n");
 
     await prisma.$disconnect();
 
@@ -70,10 +70,10 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="vehicles_${new Date().toISOString().split("T")[0]}.csv"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Export Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

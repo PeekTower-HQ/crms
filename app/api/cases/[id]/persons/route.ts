@@ -82,7 +82,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     }));
 
     return NextResponse.json({ persons }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching case persons:", error);
 
     if (error instanceof NotFoundError) {
@@ -223,7 +223,7 @@ export async function POST(request: NextRequest, context: RouteContext) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error adding person to case:", error);
 
     if (error instanceof ValidationError) {

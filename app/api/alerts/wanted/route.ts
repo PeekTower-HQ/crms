@@ -16,6 +16,8 @@ import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import type { WantedPersonFilters } from "@/src/domain/interfaces/repositories/IWantedPersonRepository";
+import type { WantedPersonStatus, DangerLevel } from "@/src/domain/entities/WantedPerson";
 
 /**
  * GET /api/alerts/wanted
@@ -60,10 +62,10 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {};
+    const filters: WantedPersonFilters = {};
 
-    if (status) filters.status = status;
-    if (dangerLevel) filters.dangerLevel = dangerLevel;
+    if (status) filters.status = status as WantedPersonStatus;
+    if (dangerLevel) filters.dangerLevel = dangerLevel as DangerLevel;
     if (isActive !== null) filters.isActive = isActive === "true";
     if (isRegional !== null) filters.isRegionalAlert = isRegional === "true";
 

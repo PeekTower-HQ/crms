@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "50");
     const offset = parseInt(searchParams.get("offset") || "0");
 
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (status) where.status = status;
     if (stationId) where.stationId = stationId;
 
@@ -58,10 +58,10 @@ export async function GET(request: NextRequest) {
         hasMore: offset + limit < count,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicles List Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }
@@ -89,10 +89,10 @@ export async function POST(request: NextRequest) {
       message: "Vehicle created successfully",
       vehicle,
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Create Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

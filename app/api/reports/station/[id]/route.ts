@@ -87,9 +87,9 @@ export async function GET(
     );
 
     // Convert stream to buffer
-    const chunks: any[] = [];
+    const chunks: Buffer[] = [];
     for await (const chunk of pdfStream) {
-      chunks.push(chunk);
+      chunks.push(Buffer.from(chunk));
     }
     const pdfBuffer = Buffer.concat(chunks);
 
@@ -102,7 +102,7 @@ export async function GET(
         "Content-Length": pdfBuffer.length.toString(),
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Station report generation error:", error);
 
     // Audit failure
@@ -116,16 +116,19 @@ export async function GET(
         officerId: session.user.id,
         stationId: session.user.stationId,
         success: false,
-        details: { error: error.message, reportType: "station" },
+        details: {
+          error: error instanceof Error ? error.message : String(error),
+          reportType: "station"
+        },
         ipAddress: request.headers.get("x-forwarded-for") || "unknown",
       });
     }
 
-    if (error.name === "ValidationError") {
+    if (error instanceof Error && error.name === "ValidationError") {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    if (error.name === "ForbiddenError") {
+    if (error instanceof Error && error.name === "ForbiddenError") {
       return NextResponse.json({ error: error.message }, { status: 403 });
     }
 

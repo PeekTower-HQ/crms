@@ -33,10 +33,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       success: true,
       vehicle,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Get Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }
@@ -59,10 +59,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       message: "Vehicle updated successfully",
       vehicle,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Update Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }
@@ -82,10 +82,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       success: true,
       message: "Vehicle deleted successfully",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Delete Error]", error);
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

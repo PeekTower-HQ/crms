@@ -12,7 +12,7 @@ import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { PersonFilters } from "@/src/domain/interfaces/repositories/IPersonRepository";
 import { CreatePersonInput } from "@/src/services/PersonService";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError, ForbiddenError } from "@/src/lib/errors";
 
 /**
  * GET /api/persons

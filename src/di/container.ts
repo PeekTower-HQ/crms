@@ -29,6 +29,7 @@ import { IWantedPersonRepository } from "@/src/domain/interfaces/repositories/IW
 import { IVehicleRepository } from "@/src/domain/interfaces/repositories/IVehicleRepository";
 import { IUSSDSessionRepository } from "@/src/domain/interfaces/repositories/IUSSDSessionRepository";
 import { IWhatsAppSessionRepository } from "@/src/domain/interfaces/repositories/IWhatsAppSessionRepository";
+import { IWhatsAppNewsletterRepository } from "@/src/domain/interfaces/repositories/IWhatsAppNewsletterRepository";
 
 // Service Interfaces
 import { IFieldCheckService } from "@/src/domain/interfaces/services/IFieldCheckService";
@@ -49,6 +50,7 @@ import { WantedPersonRepository } from "@/src/repositories/implementations/Wante
 import { VehicleRepository } from "@/src/repositories/implementations/VehicleRepository";
 import { USSDSessionRepository } from "@/src/repositories/implementations/USSDSessionRepository";
 import { WhatsAppSessionRepository } from "@/src/repositories/implementations/WhatsAppSessionRepository";
+import { WhatsAppNewsletterRepository } from "@/src/repositories/implementations/WhatsAppNewsletterRepository";
 
 // Services
 import { AuthService } from "@/src/services/AuthService";
@@ -69,6 +71,7 @@ import { RoleService } from "@/src/services/RoleService";
 import { USSDService } from "@/src/services/USSDService";
 import { CountryConfigService } from "@/src/services/CountryConfigService";
 import { FieldCheckService } from "@/src/services/FieldCheckService";
+import { NewsletterService } from "@/src/services/NewsletterService";
 
 /**
  * Application Dependency Injection Container
@@ -99,6 +102,7 @@ export class Container {
   public readonly vehicleRepository: IVehicleRepository;
   public readonly ussdSessionRepository: IUSSDSessionRepository;
   public readonly whatsappSessionRepository: IWhatsAppSessionRepository;
+  public readonly whatsappNewsletterRepository: IWhatsAppNewsletterRepository;
 
   // Services
   public readonly authService: AuthService;
@@ -118,6 +122,7 @@ export class Container {
   public readonly roleService: RoleService;
   public readonly ussdService: USSDService;
   public readonly fieldCheckService: IFieldCheckService;
+  public readonly newsletterService: NewsletterService;
 
   private constructor() {
     // Initialize Prisma Client
@@ -142,6 +147,7 @@ export class Container {
     this.vehicleRepository = new VehicleRepository(this.prismaClient);
     this.ussdSessionRepository = new USSDSessionRepository();
     this.whatsappSessionRepository = new WhatsAppSessionRepository(this.prismaClient);
+    this.whatsappNewsletterRepository = new WhatsAppNewsletterRepository(this.prismaClient);
 
     // Initialize Services with injected dependencies
     this.authService = new AuthService(
@@ -253,6 +259,12 @@ export class Container {
       this.vehicleRepository,
       this.wantedPersonRepository,
       this.caseRepository,
+      this.auditLogRepository
+    );
+
+    // Phase 8: Newsletter Service (WhatsApp newsletter/channel management)
+    this.newsletterService = new NewsletterService(
+      this.whatsappNewsletterRepository,
       this.auditLogRepository
     );
   }

@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (active !== null) filters.active = active === "true";
     if (region) filters.region = region;

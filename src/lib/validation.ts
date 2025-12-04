@@ -214,3 +214,81 @@ export function validate<T>(schema: z.ZodSchema<T>, data: unknown): T {
 
   return result.data;
 }
+
+/**
+ * URL validation utilities for WhatsApp newsletter link preview broadcasts
+ */
+
+/**
+ * URL validation regex (matches http(s) URLs)
+ */
+const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+
+/**
+ * Check if text contains at least one valid URL
+ *
+ * @param text - Text to check for URLs
+ * @returns True if text contains at least one http(s) URL
+ */
+export function containsUrl(text: string): boolean {
+  if (!text || text.trim().length === 0) {
+    return false;
+  }
+
+  const matches = text.match(URL_REGEX);
+  return matches !== null && matches.length > 0;
+}
+
+/**
+ * Extract all URLs from text
+ *
+ * @param text - Text to extract URLs from
+ * @returns Array of URLs found in text
+ */
+export function extractUrls(text: string): string[] {
+  if (!text || text.trim().length === 0) {
+    return [];
+  }
+
+  const matches = text.match(URL_REGEX);
+  return matches || [];
+}
+
+/**
+ * Validate link preview broadcast input
+ * Throws ValidationError if invalid
+ *
+ * @param body - Body text (must contain URL)
+ * @param title - Optional title
+ * @param media - Optional media URL
+ */
+export function validateLinkPreviewInput(
+  body: string,
+  title?: string,
+  media?: string
+): void {
+  // Body is required
+  if (!body || body.trim().length === 0) {
+    throw new Error("Body text is required for link preview broadcasts");
+  }
+
+  // Body must contain at least one URL
+  if (!containsUrl(body)) {
+    throw new Error(
+      "Body text must contain at least one URL for link preview broadcasts. " +
+      "URLs must start with http:// or https://"
+    );
+  }
+
+  // Title length limit (if provided)
+  if (title && title.length > 255) {
+    throw new Error("Preview title must be 255 characters or less");
+  }
+
+  // Media must be valid URL (if provided)
+  if (media && media.trim().length > 0) {
+    if (!media.startsWith('http://') && !media.startsWith('https://') && !media.startsWith('data:')) {
+      throw new Error("Media URL must be an HTTP(S) URL or base64 data URI");
+    }
+  }
+}
