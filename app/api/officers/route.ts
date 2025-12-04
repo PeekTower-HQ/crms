@@ -15,7 +15,6 @@ import { container } from "@/src/di/container";
 import { canManageOfficers } from "@/lib/permissions";
 import {
   ValidationError,
-  NotFoundError,
   ForbiddenError,
 } from "@/src/lib/errors";
 
@@ -44,7 +43,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (active !== null) filters.active = active === "true";
     if (roleId) filters.roleId = roleId;

@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
       vehicles: result.vehicles,
       count: result.total,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Vehicle Search Error]", error);
     return NextResponse.json(
       { error: error.message || "Internal server error" },

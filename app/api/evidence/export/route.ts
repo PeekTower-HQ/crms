@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     const toDate = searchParams.get("toDate");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (caseId) filters.caseId = caseId;
     if (type) filters.type = type;
@@ -82,10 +82,10 @@ export async function GET(request: NextRequest) {
     // Fetch evidence
     const evidenceRepo = container.evidenceRepository;
     const result = await evidenceRepo.findAll(filters);
-    const evidence = (result as any).items || result;
+    const evidence = (result as Record<string, unknown>).items || result;
 
     // Transform to CSV-friendly format
-    const csvData = evidence.map((e: any) => ({
+    const csvData = evidence.map((e) => ({
       "Evidence ID": e.id,
       "QR Code": e.qrCode,
       "Case ID": e.caseId,
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="evidence-export-${new Date().toISOString().split("T")[0]}.csv"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Evidence export error:", error);
 
     // Audit failure

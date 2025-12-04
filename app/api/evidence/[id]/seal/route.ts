@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { NotFoundError, ForbiddenError } from "@/src/lib/errors";
 
 interface RouteContext {
   params: Promise<{

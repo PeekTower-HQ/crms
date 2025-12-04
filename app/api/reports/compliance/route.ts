@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Convert stream to buffer
-    const chunks: any[] = [];
+    const chunks: Uint8Array[] = [];
     for await (const chunk of pdfStream) {
       chunks.push(chunk);
     }
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
         "Content-Length": pdfBuffer.length.toString(),
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Compliance report generation error:", error);
 
     // Audit failure

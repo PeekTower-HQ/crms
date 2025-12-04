@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     const toDate = searchParams.get("toDate");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (isWanted === "true") filters.isWanted = true;
     if (isWanted === "false") filters.isWanted = false;
@@ -60,11 +60,11 @@ export async function GET(request: NextRequest) {
     // Fetch persons
     const personRepo = container.personRepository;
     const result = await personRepo.findAll(filters);
-    const persons = (result as any).items || result;
+    const persons = (result as Record<string, unknown>).items || result;
 
     // Transform to CSV-friendly format
     // IMPORTANT: Do NOT include encrypted PII (addresses, phone, email)
-    const csvData = persons.map((p: any) => ({
+    const csvData = persons.map((p) => ({
       "Person ID": p.id,
       NIN: p.nin,
       "First Name": p.firstName,
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="persons-export-${new Date().toISOString().split("T")[0]}.csv"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Persons export error:", error);
 
     // Audit failure

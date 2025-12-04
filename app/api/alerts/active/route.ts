@@ -18,6 +18,75 @@ import { NextRequest, NextResponse } from "next/server";
 import { container } from "@/src/di/container";
 
 /**
+ * Types for alert responses
+ */
+interface AmberAlertUSSDFormat {
+  id: string;
+  personName: string;
+  age: number | null;
+  message: string;
+  urgency: string;
+  daysMissing: number;
+}
+
+interface AmberAlertFullFormat {
+  id: string;
+  type: "amber";
+  personName: string;
+  age: number | null;
+  gender: string | null;
+  description: string;
+  photoUrl: string | null;
+  lastSeenLocation: string | null;
+  lastSeenDate: string | null;
+  contactPhone: string;
+  publishedAt: Date | null;
+  urgency: string;
+  daysMissing: number;
+  broadcastMessage: string;
+}
+
+interface WantedPersonUSSDFormat {
+  id: string;
+  personName: string;
+  message: string;
+  dangerLevel: string;
+  reward: number | null;
+}
+
+interface WantedPersonFullFormat {
+  id: string;
+  type: "wanted";
+  personName: string;
+  warrantNumber: string;
+  charges: string[];
+  dangerLevel: string;
+  physicalDescription: string;
+  photoUrl: string | null;
+  lastSeenLocation: string | null;
+  lastSeenDate: string | null;
+  rewardAmount: number | null;
+  contactPhone: string;
+  isRegionalAlert: boolean;
+  issuedDate: Date;
+  broadcastMessage: string;
+}
+
+interface ResponseCount {
+  amberAlerts: number;
+  wantedPersons: number;
+  total: number;
+}
+
+interface AlertResponse {
+  timestamp: string;
+  count: ResponseCount;
+  amberAlerts?: Array<AmberAlertUSSDFormat | AmberAlertFullFormat>;
+  wantedPersons?: Array<WantedPersonUSSDFormat | WantedPersonFullFormat>;
+  alerts?: Array<AmberAlertUSSDFormat | AmberAlertFullFormat | WantedPersonUSSDFormat | WantedPersonFullFormat>;
+}
+
+/**
  * GET /api/alerts/active
  * Get all active alerts (Amber Alerts + Wanted Persons)
  *
@@ -38,8 +107,8 @@ export async function GET(request: NextRequest) {
 
     const resultLimit = limit ? parseInt(limit) : 50;
 
-    let amberAlerts: any[] = [];
-    let wantedPersons: any[] = [];
+    let amberAlerts: Array<AmberAlertUSSDFormat | AmberAlertFullFormat> = [];
+    let wantedPersons: Array<WantedPersonUSSDFormat | WantedPersonFullFormat> = [];
 
     // Fetch Amber Alerts if requested
     if (type === "all" || type === "amber") {
@@ -114,7 +183,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Combine and return
-    const response: any = {
+    const response: AlertResponse = {
       timestamp: new Date().toISOString(),
       count: {
         amberAlerts: amberAlerts.length,

@@ -19,7 +19,7 @@ declare module "next-auth" {
   /**
    * Extends the built-in user types (returned from authorize())
    */
-  interface User extends SessionUser {}
+  type User = SessionUser;
 }
 
 declare module "next-auth/jwt" {

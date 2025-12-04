@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     const stationId = searchParams.get("stationId") || session.user.stationId;
 
     // Build where clause based on permissions
-    let whereClause: any = {};
+    let whereClause: Record<string, unknown> = {};
 
     // Scope filtering based on permissions
     if (hasPermission(session, "cases", "read", "national")) {
@@ -238,7 +238,7 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json({ statistics }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching statistics:", error);
 
     if (error instanceof ForbiddenError) {

@@ -52,7 +52,7 @@ export async function GET(
     );
 
     // Convert stream to buffer
-    const chunks: any[] = [];
+    const chunks: Uint8Array[] = [];
     for await (const chunk of pdfStream) {
       chunks.push(chunk);
     }
@@ -67,7 +67,7 @@ export async function GET(
         "Content-Length": pdfBuffer.length.toString(),
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Case report generation error:", error);
 
     // Audit failure

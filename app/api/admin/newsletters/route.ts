@@ -55,8 +55,8 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const filters: any = {};
+     
+    const filters: Record<string, unknown> = {};
     if (status) filters.status = status;
     if (createdById) filters.createdById = createdById;
     if (searchTerm) filters.searchTerm = searchTerm;

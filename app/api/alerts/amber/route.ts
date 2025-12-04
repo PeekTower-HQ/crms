@@ -15,7 +15,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError, ForbiddenError } from "@/src/lib/errors";
 
 /**
  * GET /api/alerts/amber
@@ -58,7 +58,11 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {};
+    const filters: {
+      status?: string;
+      isActive?: boolean;
+      urgencyLevel?: string;
+    } = {};
 
     if (status) filters.status = status;
     if (isActive !== null) filters.isActive = isActive === "true";

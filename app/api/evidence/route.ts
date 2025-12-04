@@ -12,7 +12,7 @@ import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
 import { EvidenceFilters } from "@/src/domain/interfaces/repositories/IEvidenceRepository";
 import { CreateEvidenceInput } from "@/src/services/EvidenceService";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError, ForbiddenError } from "@/src/lib/errors";
 
 /**
  * GET /api/evidence

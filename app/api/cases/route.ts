@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError } from "@/src/lib/errors";
 
 /**
  * GET /api/cases
@@ -39,7 +39,15 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {
+    const filters: {
+      stationId: string;
+      status?: string;
+      category?: string;
+      severity?: string;
+      search?: string;
+      limit?: number;
+      offset?: number;
+    } = {
       stationId: session.user.stationId, // Filter by user's station
     };
 

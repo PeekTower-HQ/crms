@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     const toDate = searchParams.get("toDate");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     // Apply station filter based on permissions
     if (stationId) {
@@ -79,10 +79,10 @@ export async function GET(request: NextRequest) {
     // Fetch cases
     const caseRepo = container.caseRepository;
     const result = await caseRepo.findAll(filters);
-    const cases = (result as any).items || result;
+    const cases = (result as Record<string, unknown>).items || result;
 
     // Transform to CSV-friendly format
-    const csvData = cases.map((c: any) => ({
+    const csvData = cases.map((c) => ({
       "Case Number": c.caseNumber,
       Title: c.title,
       Description: c.description,
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="cases-export-${new Date().toISOString().split("T")[0]}.csv"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Cases export error:", error);
 
     // Audit failure

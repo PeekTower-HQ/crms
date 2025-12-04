@@ -15,7 +15,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { container } from "@/src/di/container";
 import { hasPermission } from "@/lib/permissions";
-import { ValidationError, NotFoundError, ForbiddenError } from "@/src/lib/errors";
+import { ValidationError, ForbiddenError } from "@/src/lib/errors";
 
 /**
  * GET /api/background-checks
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
 
     if (nin) filters.nin = nin;
     if (requestType) filters.requestType = requestType;

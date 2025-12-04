@@ -60,7 +60,12 @@ export async function GET(request: NextRequest) {
     const offset = searchParams.get("offset");
 
     // Build filters
-    const filters: any = {};
+    const filters: {
+      status?: string;
+      dangerLevel?: string;
+      isActive?: boolean;
+      isRegionalAlert?: boolean;
+    } = {};
 
     if (status) filters.status = status;
     if (dangerLevel) filters.dangerLevel = dangerLevel;

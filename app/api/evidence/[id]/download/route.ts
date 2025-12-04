@@ -85,7 +85,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generating download URL:", error);
 
     if (error instanceof NotFoundError) {
