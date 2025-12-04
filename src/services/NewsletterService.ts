@@ -71,6 +71,16 @@ export class NewsletterService {
     officerId: string,
     ipAddress?: string
   ): Promise<WhatsAppNewsletter> {
+    console.log("[NewsletterService] createNewsletter called with:", {
+      input: {
+        name: input.name,
+        description: input.description,
+        pictureUrl: input.pictureUrl ? `${input.pictureUrl.substring(0, 50)}...` : undefined,
+      },
+      officerId,
+      ipAddress,
+    });
+
     // Validate input
     if (!input.name || input.name.trim().length === 0) {
       throw new ValidationError("Newsletter name is required");
@@ -82,11 +92,24 @@ export class NewsletterService {
 
     try {
       // Create newsletter via Whapi API
+      console.log("[NewsletterService] Calling whapi.createNewsletter with:", {
+        name: input.name,
+        description: input.description,
+        pictureUrl: input.pictureUrl ? `${input.pictureUrl.substring(0, 50)}...` : undefined,
+      });
+
       const whapiResult = await whapi.createNewsletter(
         input.name,
         input.description,
         input.pictureUrl
       );
+
+      console.log("[NewsletterService] Whapi result:", {
+        success: whapiResult.success,
+        hasNewsletter: !!whapiResult.newsletter,
+        error: whapiResult.error,
+        newsletter: whapiResult.newsletter,
+      });
 
       if (!whapiResult.success || !whapiResult.newsletter) {
         throw new Error(whapiResult.error || "Failed to create newsletter on Whapi");

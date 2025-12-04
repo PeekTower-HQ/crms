@@ -131,7 +131,18 @@ async function sendRequest(
 
       try {
         const errorData = await response.json();
-        errorText = errorData.message || errorData.error || response.statusText;
+        // Properly serialize error data
+        if (typeof errorData === 'string') {
+          errorText = errorData;
+        } else if (errorData.message && typeof errorData.message === 'string') {
+          errorText = errorData.message;
+        } else if (errorData.error) {
+          errorText = typeof errorData.error === 'string'
+            ? errorData.error
+            : JSON.stringify(errorData.error);
+        } else {
+          errorText = JSON.stringify(errorData);
+        }
       } catch {
         errorText = response.statusText;
       }
@@ -208,6 +219,12 @@ export async function createNewsletter(
   description?: string,
   pictureUrl?: string
 ): Promise<WhapiNewsletterResult> {
+  console.log("[Whapi] createNewsletter called with:", {
+    name,
+    description,
+    pictureUrl: pictureUrl ? `${pictureUrl.substring(0, 50)}...` : undefined,
+  });
+
   const payload: Record<string, unknown> = {
     name,
   };
@@ -219,6 +236,11 @@ export async function createNewsletter(
   if (pictureUrl) {
     payload.newsletter_pic = pictureUrl;
   }
+
+  console.log("[Whapi] createNewsletter payload:", {
+    ...payload,
+    newsletter_pic: payload.newsletter_pic ? `${String(payload.newsletter_pic).substring(0, 50)}...` : undefined,
+  });
 
   return sendNewsletterRequest(
     whapiNewsletterUrl,
@@ -365,6 +387,21 @@ async function sendNewsletterRequest(
         options.body = JSON.stringify(payload);
       }
 
+      // Debug logging
+      console.log(`[Whapi] ${operationType} request:`, {
+        url,
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${whapiToken?.substring(0, 10)}...`,
+        },
+        payload: payload ? {
+          ...payload,
+          newsletter_pic: payload.newsletter_pic ? `${String(payload.newsletter_pic).substring(0, 50)}...` : undefined,
+        } : null,
+        bodyLength: options.body ? options.body.length : 0,
+      });
+
       const response = await fetch(url, options);
 
       if (response.ok) {
@@ -399,8 +436,18 @@ async function sendNewsletterRequest(
 
       try {
         const errorData = await response.json();
-        errorText =
-          errorData.message || errorData.error || response.statusText;
+        // Properly serialize error data
+        if (typeof errorData === 'string') {
+          errorText = errorData;
+        } else if (errorData.message && typeof errorData.message === 'string') {
+          errorText = errorData.message;
+        } else if (errorData.error) {
+          errorText = typeof errorData.error === 'string'
+            ? errorData.error
+            : JSON.stringify(errorData.error);
+        } else {
+          errorText = JSON.stringify(errorData);
+        }
       } catch {
         errorText = response.statusText;
       }

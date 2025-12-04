@@ -118,6 +118,15 @@ export async function POST(request: NextRequest) {
     // Parse request body
     const body = await request.json();
 
+    console.log("[API] POST /api/admin/newsletters received body:", {
+      name: body.name,
+      description: body.description,
+      pictureUrl: body.pictureUrl ? `${body.pictureUrl.substring(0, 50)}...` : undefined,
+      hasPictureUrl: !!body.pictureUrl,
+      pictureUrlLength: body.pictureUrl?.length,
+      pictureUrlType: typeof body.pictureUrl,
+    });
+
     // Validate required fields
     if (!body.name) {
       return NextResponse.json(
@@ -133,6 +142,14 @@ export async function POST(request: NextRequest) {
       undefined;
 
     // Create newsletter
+    console.log("[API] Calling newsletterService.createNewsletter with:", {
+      name: body.name,
+      description: body.description,
+      pictureUrl: body.pictureUrl ? `${body.pictureUrl.substring(0, 50)}...` : undefined,
+      officerId: session.user.id,
+      ipAddress,
+    });
+
     const newsletter = await container.newsletterService.createNewsletter(
       {
         name: body.name,
