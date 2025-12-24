@@ -87,4 +87,5 @@ dev.pid
 .claude
 .factory
 CLAUDE.md
-docs/
+# Docs - internal/private files only
+docs/internal/
