@@ -72,6 +72,7 @@ import { USSDService } from "@/src/services/USSDService";
 import { CountryConfigService } from "@/src/services/CountryConfigService";
 import { FieldCheckService } from "@/src/services/FieldCheckService";
 import { NewsletterService } from "@/src/services/NewsletterService";
+import { PosterService } from "@/src/services/PosterService";
 
 /**
  * Application Dependency Injection Container
@@ -123,6 +124,7 @@ export class Container {
   public readonly ussdService: USSDService;
   public readonly fieldCheckService: IFieldCheckService;
   public readonly newsletterService: NewsletterService;
+  public readonly posterService: PosterService;
 
   private constructor() {
     // Initialize Prisma Client
@@ -265,6 +267,13 @@ export class Container {
     // Phase 8: Newsletter Service (WhatsApp newsletter/channel management)
     this.newsletterService = new NewsletterService(
       this.whatsappNewsletterRepository,
+      this.auditLogRepository
+    );
+
+    // Poster Service (PDF and image generation for alerts)
+    this.posterService = new PosterService(
+      this.amberAlertRepository,
+      this.wantedPersonRepository,
       this.auditLogRepository
     );
   }
