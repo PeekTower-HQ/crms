@@ -31,7 +31,7 @@
 
 ## DPG Compliance
 
-* [DPG Submission Package](DPG_SUBMISSION_PACKAGE.md)
+* [DPG Compliance (9 Indicators)](DPG_COMPLIANCE.md)
 
 ## Examples
 
