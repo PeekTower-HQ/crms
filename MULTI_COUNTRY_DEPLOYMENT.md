@@ -47,7 +47,7 @@ Create country-specific configuration in `config/countries/{country-code}.json`:
 ```
 config/
 └── countries/
-    ├── SLE.json    # Sierra Leone (pilot)
+    ├── SLE.json    # Sierra Leone (target)
     ├── GHA.json    # Ghana
     ├── NGA.json    # Nigeria
     ├── KEN.json    # Kenya
@@ -149,7 +149,7 @@ config/
 
 ## Reference Implementations
 
-### 1. Sierra Leone (Pilot)
+### 1. Sierra Leone (Target)
 
 **File:** `config/countries/SLE.json`
 
@@ -579,7 +579,7 @@ X-Treaty: ECOWAS
 
 Need help deploying CRMS in your country? Contact:
 - **Email**: deploy@crms-africa.org
-- **WhatsApp**: +232-XX-XXXXXX (Sierra Leone pilot team)
+- **WhatsApp**: [To be confirmed when partnership established]
 - **GitHub Discussions**: https://github.com/PeekTower-HQ/crms/discussions
 
 ### Training Materials
@@ -597,20 +597,20 @@ Need help deploying CRMS in your country? Contact:
 
 ---
 
-## Success Stories (Pending Pilot Deployment)
+## Target Deployments
 
-### Sierra Leone (Prepared for Pilot - Target Q2-Q3 2026)
+### Sierra Leone (Target Pilot Country)
 
-**Context:** Production-ready system prepared for pilot deployment with Sierra Leone Police Force (pending government approval)
-**Timeline:** Target Q2-Q3 2026 (90-day deployment after partnership confirmation)
-**Preparation Complete:**
+**Context:** Development-complete system designed for pilot deployment. Sierra Leone Police Force is the target first pilot partner (seeking partnership).
+**Timeline:** Deployment within 90 days of partnership confirmation
+**Development Status:**
 - ✅ Development: 11/12 phases complete (91%)
 - ✅ Testing: 144+ test cases
 - ✅ Documentation: 200,000+ words including deployment guides
 - ✅ Multi-country configuration system validated
-- ⏳ Deployment: Awaiting partnership approval and funding
+- 📋 Partnership: Seeking - no contact established yet
+**Target Outcomes (Post-Deployment):** 10,000+ cases, 50,000+ background checks, 50+ stations
 **Challenges:** [To be documented post-deployment]
-**Outcomes:** [To be measured post-deployment - targeting 10,000+ cases, 50,000+ background checks, 50+ stations]
 **Lessons Learned:** [To be documented post-deployment]
 
 ---

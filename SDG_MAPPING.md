@@ -126,15 +126,15 @@ The Criminal Record Management System (CRMS) is designed as a **Pan-African Digi
 
 ### Quantitative Indicators
 
-| Indicator | Baseline (2025) | Year 1 Target | Year 3 Target |
-|-----------|----------------|---------------|---------------|
-| **Cases Digitized (Projected)** | 0 (pre-pilot) | 10,000+ | 100,000+ |
-| **Background Checks (Projected)** | 0 (pre-pilot) | 50,000+ | 200,000+ annually |
-| **Police Stations to Deploy** | 0 (pre-pilot) | 50+ (Sierra Leone) | 500+ (5+ countries) |
-| **Officers to Train** | 0 (pre-pilot) | 500+ | 5,000+ |
-| **System Uptime (Target)** | Production-ready | 99.5% | 99.9% |
-| **Citizen USSD Users (Target)** | 0 (pre-pilot) | 100,000+ | 1,000,000+ |
-| **Countries for Deployment** | 0 (pre-pilot) | 1 (Sierra Leone) | 5+ |
+| Indicator | Baseline | Post-Pilot Target | Scale Target |
+|-----------|----------|-------------------|--------------|
+| **Cases Digitized (Projected)** | 0 (seeking pilot) | 10,000+ | 100,000+ |
+| **Background Checks (Projected)** | 0 (seeking pilot) | 50,000+ | 200,000+ annually |
+| **Police Stations to Deploy** | 0 (seeking pilot) | 50+ (first pilot) | 500+ (5+ countries) |
+| **Officers to Train** | 0 (seeking pilot) | 500+ | 5,000+ |
+| **System Uptime (Target)** | Development-complete | 99.5% | 99.9% |
+| **Citizen USSD Users (Target)** | 0 (seeking pilot) | 100,000+ | 1,000,000+ |
+| **Countries for Deployment** | 0 (seeking pilot) | 1 (target: Sierra Leone) | 5+ |
 | **GitHub Contributors** | Development team | 10+ | 50+ |
 | **Open Source Stars** | In development | 500+ | 2,000+ |
 
@@ -238,26 +238,26 @@ CRMS meets all **9 indicators** of the DPG Standard:
 
 ---
 
-## Case Studies (Planned - Pending Pilot Deployment)
+## Case Studies (Planned - Seeking Pilot Partners)
 
-### Sierra Leone (Prepared for Pilot - Target Q2-Q3 2026)
+### Sierra Leone (Target Pilot Country)
 
-**Context:** Sierra Leone Police Force is prepared for pilot deployment (pending government approval)
-**Timeline:** Target Q2-Q3 2026 (90-day deployment after partnership confirmation)
-**Scope:** 50+ police stations, 500+ officers, Freetown and regional stations
-**Preparation Complete:**
+**Context:** Sierra Leone Police Force is the target first pilot partner (seeking partnership - no contact yet)
+**Timeline:** Deployment within 90 days of partnership confirmation
+**Proposed Scope:** 50+ police stations, 500+ officers, Freetown and regional stations
+**Development Status:**
 - ✅ Development: 11/12 phases complete (91%)
 - ✅ Testing: 144+ test cases
 - ✅ Documentation: 200,000+ words
-- ⏳ Deployment: Awaiting partnership approval
-**Projected Outcomes:** 10,000+ cases digitized, 50,000+ background checks, measurable SDG 16 impact
+- 📋 Partnership: Seeking - outreach planned
+**Target Outcomes:** 10,000+ cases digitized, 50,000+ background checks, measurable SDG 16 impact
 **Lessons to Document:** [Post-deployment]
 
-### Ghana (Planned - Target Q3-Q4 2026)
+### Ghana (Alternative Target)
 
-**Context:** Ghana Police Service national rollout
-**Outcomes:** [To be measured]
-**Lessons Learned:** [To be documented]
+**Context:** Ghana Police Service as potential pilot partner
+**Outcomes:** [To be measured post-deployment]
+**Lessons Learned:** [To be documented post-deployment]
 
 ---
 

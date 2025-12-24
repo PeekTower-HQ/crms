@@ -28,11 +28,11 @@ This policy applies to all CRMS deployments across Africa. Each country deployme
 
 CRMS operates on a **decentralized model**. Each country deployment has its own Data Controller:
 
-**Sierra Leone (Pilot Implementation):**
-- **Data Controller:** Sierra Leone Police Force
+**Sierra Leone (Target Implementation - Pending Partnership):**
+- **Data Controller:** Sierra Leone Police Force (when partnership secured)
 - **Address:** Police Headquarters, Freetown, Sierra Leone
-- **Contact:** dpo@police.gov.sl
-- **Data Protection Officer (DPO):** [To be appointed per country]
+- **Contact:** [To be confirmed when partnership established]
+- **Data Protection Officer (DPO):** [To be appointed when partnership established]
 
 **Other Deployments:**
 

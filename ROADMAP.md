@@ -1,12 +1,12 @@
 # CRMS Roadmap
 
-## Current Status: Production-Ready, Pre-Pilot ✅
+## Current Status: Development Complete, Seeking Pilot Partners ✅
 
 ```
 Development ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91% ✅
 Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Complete ✅
 Documentation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Complete ✅
-Pilot Deployment ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Pending ⏳
+Pilot Partnership ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Seeking 📋
 Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Planned 📋
 ```
 
@@ -96,7 +96,7 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ### Deliverables Completed
 
-✅ **Production-ready codebase**
+✅ **Development-complete codebase**
 - Modern tech stack (Next.js 16, React 19, TypeScript 5)
 - Service-Repository architecture pattern
 - Dependency injection container
@@ -132,41 +132,40 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ---
 
-## Phase 2: DPG Submission & Partnership Building ⏳ CURRENT
+## Phase 2: DPG Preparation & Partnership Outreach 📋 CURRENT
 
-**Timeline:** November 2025 - Q1 2026
-**Status:** 🚧 In Progress
+**Timeline:** Ongoing
+**Status:** 📋 In Progress
 
 ### Current Activities
 
-🚧 **DPG Standard Compliance Review**
-- Validate all 9 DPG indicators
-- Expert review of documentation
-- Security audit recommendations
+📋 **DPG Standard Compliance Preparation**
+- Validating all 9 DPG indicators
+- Preparing documentation for review
+- Planning security audit
 - Privacy compliance verification
 
-🚧 **DPG Accelerator Application**
-- First cohort application submitted
-- Interview preparation
-- Partnership building
-- Visibility and networking
+📋 **DPG Application Preparation**
+- Preparing application materials
+- Reviewing requirements
+- Building supporting documentation
 
-⏳ **Pilot Country Partnerships**
-- Approach Sierra Leone Police Force
-- Engage Ghana Police Service
-- Connect with Nigeria Police Force
-- Establish government relationships
+📋 **Pilot Country Outreach (Planned)**
+- Target: Sierra Leone Police Force
+- Target: Ghana Police Service
+- Target: Nigeria Police Force
+- Planning government engagement strategy
 
-⏳ **Funding & Resource Mobilization**
-- Apply for DPG grants
-- Approach development banks (AfDB, World Bank)
-- Foundation funding (Digital Public Goods Alliance)
-- Government budget allocations
+📋 **Funding & Resource Planning**
+- Identifying potential DPG grants
+- Researching development bank opportunities (AfDB, World Bank)
+- Exploring foundation funding options
+- Planning government budget engagement
 
-### Deliverables (Target Q1 2026)
+### Deliverables (When Partnership Secured)
 
-- [ ] **DPG certification** from Digital Public Goods Alliance
-- [ ] **Pilot country MOUs** signed (Sierra Leone + 1-2 others)
+- [ ] **DPG application** submitted to Digital Public Goods Alliance
+- [ ] **Pilot country partnership** confirmed (target: Sierra Leone)
 - [ ] **Security audit report** from third-party firm
 - [ ] **Deployment infrastructure** specifications finalized
 - [ ] **Training materials** developed (videos, manuals)
@@ -174,28 +173,28 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ### Success Criteria
 
-✅ DPG certification achieved
-✅ At least 1 pilot country partnership confirmed
-✅ Funding secured for initial deployment
-✅ Security audit passed with no critical vulnerabilities
-✅ Deployment plan approved by pilot country
+📋 DPG application submitted
+📋 At least 1 pilot country partnership confirmed
+📋 Funding secured for initial deployment
+📋 Security audit passed with no critical vulnerabilities
+📋 Deployment plan approved by pilot country
 
 ---
 
 ## Phase 3: First Pilot Deployments 📋 PLANNED
 
-**Timeline:** Q2-Q3 2026 (pending partnerships)
-**Status:** ⏳ Awaiting Approval
+**Timeline:** When partnership secured
+**Status:** 📋 Seeking Partners
 
-### Pilot A: Sierra Leone Police Force
+### Target Pilot A: Sierra Leone Police Force
 
-**Scope:**
+**Proposed Scope (pending partnership):**
 - 50+ police stations (Freetown + regional)
 - 500+ officers trained
 - National headquarters integration
 - 6-month pilot period
 
-**Timeline:**
+**Proposed Timeline (after partnership confirmation):**
 - **Month 1:** Infrastructure setup, officer training
 - **Month 2:** Pilot station onboarding (10-20 stations)
 - **Month 3:** Full deployment (50+ stations)
@@ -215,9 +214,9 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 - Training facilitators (3-5 trainers)
 - Technical support team (2-3 developers)
 
-### Pilot B: Ghana/Nigeria (Concurrent or Sequential)
+### Target Pilot B: Ghana/Nigeria (Alternative or Additional)
 
-**Scope:**
+**Proposed Scope:**
 - 30-50 stations per country
 - 300-500 officers per country
 - 3-6 month pilot
@@ -228,7 +227,7 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 - Measure deployment efficiency
 - Document lessons learned
 
-**Success Criteria:**
+**Success Criteria (for any pilot):**
 - Deploy within 90 days of partnership confirmation
 - System uptime > 99.5%
 - Officer satisfaction > 80%
@@ -240,10 +239,10 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ## Phase 4: Multi-Country Scale 📋 PLANNED
 
-**Timeline:** Q4 2026 - 2027
+**Timeline:** After successful pilot completion
 **Status:** 📋 Planned
 
-### Year 1 Targets (2026)
+### Year 1 Targets (Post-Pilot)
 
 **Deployment:**
 - 2-3 pilot countries operational
@@ -261,7 +260,7 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 - Enhanced officer productivity
 - Citizen satisfaction with background check services
 
-### Year 2 Targets (2027)
+### Year 2 Targets (Post-Scale)
 
 **Deployment:**
 - 5+ countries operational
@@ -279,7 +278,7 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 - Improved prosecution success rates
 - Data-driven policy making
 
-### Year 3+ Targets (2028+)
+### Year 3+ Targets (Future)
 
 **Deployment:**
 - 10+ countries operational
@@ -352,16 +351,16 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ## Key Milestones
 
-| Milestone | Target Date | Status |
-|-----------|-------------|--------|
-| **Development Complete** (11/12 phases) | ✅ November 2025 | Complete |
-| **DPG Accelerator Application** | ✅ November 2025 | Submitted |
-| **DPG Certification** | Q1 2026 | Pending |
-| **First Pilot Agreement Signed** | Q1-Q2 2026 | Pending |
-| **First Station Go-Live** | Q2-Q3 2026 | Pending |
-| **50+ Stations Operational** | Q3-Q4 2026 | Planned |
-| **Multi-Country Deployment** | 2027 | Planned |
-| **Regional Interoperability** | 2028+ | Future |
+| Milestone | Target | Status |
+|-----------|--------|--------|
+| **Development Complete** (11/12 phases) | ✅ Complete | Done |
+| **DPG Application Preparation** | In Progress | 📋 Preparing |
+| **DPG Application Submission** | When ready | 📋 Planned |
+| **First Pilot Partnership** | Seeking | 📋 Outreach needed |
+| **First Station Go-Live** | When partnership secured | 📋 Planned |
+| **50+ Stations Operational** | After pilot launch | 📋 Planned |
+| **Multi-Country Deployment** | After successful pilot | 📋 Future |
+| **Regional Interoperability** | After scale | 📋 Future |
 
 ---
 
@@ -376,15 +375,15 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 | Documentation | ✅ Complete | 100% (200K+ words) |
 | Security | ✅ Complete | 100% (OWASP compliant) |
 | Multi-Country Config | ✅ Complete | 100% (6+ examples) |
-| **Overall** | ✅ Production-Ready | **91%** (11/12 phases) |
+| **Overall** | ✅ Development-Complete | **91%** (11/12 phases) |
 
 ### Deployment Pipeline (Projected)
 
 | Phase | Countries | Stations | Officers | Status |
 |-------|-----------|----------|----------|--------|
-| Pilot (2026) | 2-3 | 100-150 | 1,000-1,500 | Pending |
-| Scale (2027) | 5+ | 500+ | 5,000+ | Planned |
-| Mature (2028+) | 10+ | 1,000+ | 10,000+ | Future |
+| Pilot (when secured) | 1-2 | 50-100 | 500-1,000 | Seeking Partners |
+| Scale (post-pilot) | 3-5 | 200-500 | 2,000-5,000 | Planned |
+| Mature (future) | 10+ | 1,000+ | 10,000+ | Future |
 
 ### Impact Projections
 
@@ -510,7 +509,7 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 ### What Will Make CRMS Succeed
 
 ✅ **Technical Readiness**
-- Production-ready codebase (11/12 phases complete)
+- Development-complete codebase (11/12 phases complete)
 - Comprehensive testing (144+ test cases)
 - Proven multi-country configurability
 
@@ -519,10 +518,10 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 - Deployment guides for 6+ countries
 - Security and privacy policies
 
-✅ **Community Support**
-- DPG Accelerator membership
+📋 **Community Support (Building)**
+- DPG application in preparation
 - Open-source community
-- Government partnerships
+- Seeking government partnerships
 
 ✅ **Clear Value Proposition**
 - Solves real problems (lost files, wrongful detention)
@@ -544,28 +543,28 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 ## Timeline Visualization
 
 ```
-2025 Q4          2026 Q1          2026 Q2-Q3       2026 Q4          2027+
-   │                │                │                │                │
-   ├─ Development ──┤                │                │                │
-   │   Complete ✅  │                │                │                │
-   │                │                │                │                │
-   ├─ DPG ──────────┤                │                │                │
-   │   Application  │   Certification│                │                │
-   │   🚧           │   ⏳           │                │                │
-   │                │                │                │                │
-   └────────────────├─ Pilot ────────┤                │                │
-                    │   Agreements   │   Deployment   │                │
-                    │   ⏳           │   ⏳           │                │
-                    │                │                │                │
-                    └────────────────├─ Operations ───┤                │
-                                     │   50+ Stations │   Multi-Country│
-                                     │   ⏳           │   Scale 📋     │
-                                     │                │                │
-                                     └────────────────├─ Regional ─────┤
-                                                      │   Interop      │
-                                                      │   📋           │
-                                                      │                │
-                                                      └────────────────┤
+Current              Partnership          Pilot              Scale            Future
+   │                Secured                │                   │                │
+   ├─ Development ──┤                      │                   │                │
+   │   Complete ✅  │                      │                   │                │
+   │                │                      │                   │                │
+   ├─ DPG ──────────┤                      │                   │                │
+   │   Preparing    │   Application        │                   │                │
+   │   📋          │   📋                 │                   │                │
+   │                │                      │                   │                │
+   └────────────────├─ Partnership ────────┤                   │                │
+                    │   Outreach           │   Deployment      │                │
+                    │   📋                │   📋              │                │
+                    │                      │                   │                │
+                    └──────────────────────├─ Operations ──────┤                │
+                                           │   50+ Stations    │   Multi-Country│
+                                           │   📋              │   Scale 📋     │
+                                           │                   │                │
+                                           └───────────────────├─ Regional ─────┤
+                                                               │   Interop      │
+                                                               │   📋           │
+                                                               │                │
+                                                               └────────────────┤
 ```
 
 ---
@@ -589,9 +588,9 @@ Multi-Country Scale ━━━━━━━━━━━━━━━━━━━━
 
 ---
 
-**Last Updated:** November 2025
+**Last Updated:** December 2025
 **Version:** 1.0
-**Status:** Production-Ready, Pre-Pilot
+**Status:** Development-Complete, Seeking Pilot Partners
 
 ---
 
