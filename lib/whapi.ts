@@ -153,7 +153,7 @@ async function sendRequest(
       if (response.ok) {
         const data = await response.json().catch(() => ({}));
         console.log(
-          `[Whapi] ${messageType} message sent successfully to ${payload.to}`
+          `[Whapi] ${messageType} message sent successfully to this ${payload.to}`
         );
         return {
           success: true,
