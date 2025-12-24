@@ -4,7 +4,6 @@
 
 * [Documentation Home](README.md)
 * [Requirements Specification](CRMS_REQUIREMENTS_SPECIFICATION.md)
-* [Implementation Plan](IMPLEMENTATION_PLAN.md)
 
 ## Architecture
 
