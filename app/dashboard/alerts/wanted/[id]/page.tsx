@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { container } from "@/src/di/container";
 import { WantedCaptureDialog } from "@/components/alerts/wanted-capture-dialog";
+import { PosterDownloadButtons } from "@/components/alerts/poster-download-buttons";
 
 async function getWantedPerson(id: string) {
   const session = await getServerSession(authOptions);
@@ -372,21 +373,27 @@ export default async function WantedPersonDetailPage({
       </Card>
 
       {/* Actions */}
-      {wanted.status === "active" && (
-        <div className="flex gap-3">
-          <Link href="/dashboard/alerts" className="flex-1">
-            <Button variant="outline" className="w-full">
-              View All Wanted Persons
-            </Button>
-          </Link>
-          <div className="flex-1">
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
+        <div className="flex flex-wrap gap-3">
+          <PosterDownloadButtons
+            alertId={wanted.id}
+            alertType="wanted"
+            personName={`${person?.firstName} ${person?.lastName}`}
+          />
+          {wanted.status === "active" && (
             <WantedCaptureDialog
               wantedId={wanted.id}
               personName={`${person?.firstName} ${person?.lastName}`}
             />
-          </div>
+          )}
+          <Link href="/dashboard/alerts">
+            <Button variant="outline">
+              View All Alerts
+            </Button>
+          </Link>
         </div>
-      )}
+      </Card>
     </div>
   );
 }

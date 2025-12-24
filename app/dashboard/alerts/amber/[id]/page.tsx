@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { container } from "@/src/di/container";
 import { AmberResolveDialog } from "@/components/alerts/amber-resolve-dialog";
+import { PosterDownloadButtons } from "@/components/alerts/poster-download-buttons";
 
 async function getAmberAlert(id: string) {
   const session = await getServerSession(authOptions);
@@ -298,18 +299,24 @@ export default async function AmberAlertDetailPage({
       </Card>
 
       {/* Actions */}
-      {alert.status === "active" && (
-        <div className="flex gap-3">
-          <Link href={`/dashboard/alerts`} className="flex-1">
-            <Button variant="outline" className="w-full">
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
+        <div className="flex flex-wrap gap-3">
+          <PosterDownloadButtons
+            alertId={alert.id}
+            alertType="amber"
+            personName={alert.personName}
+          />
+          {alert.status === "active" && (
+            <AmberResolveDialog alertId={alert.id} personName={alert.personName} />
+          )}
+          <Link href="/dashboard/alerts">
+            <Button variant="outline">
               View All Alerts
             </Button>
           </Link>
-          <div className="flex-1">
-            <AmberResolveDialog alertId={alert.id} personName={alert.personName} />
-          </div>
         </div>
-      )}
+      </Card>
     </div>
   );
 }
