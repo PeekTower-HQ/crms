@@ -1,23 +1,5 @@
 # CRMS Testing Guide
 
-**Version:** 1.0.0
-**Last Updated:** October 31, 2025
-**Phase:** 11 - Testing & QA
-
----
-
-## 📋 Table of Contents
-
-1. [Overview](#overview)
-2. [Test Infrastructure](#test-infrastructure)
-3. [Running Tests](#running-tests)
-4. [Writing Tests](#writing-tests)
-5. [Test Coverage](#test-coverage)
-6. [Continuous Integration](#continuous-integration)
-7. [Best Practices](#best-practices)
-
----
-
 ## Overview
 
 CRMS uses a comprehensive testing strategy across three layers:

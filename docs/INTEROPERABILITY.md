@@ -1,16 +1,10 @@
 # CRMS Interoperability Framework
 
-**Version:** 1.0
-**Date:** 2025-01-28
-**Status:** Draft
-
----
-
-## 1. Overview
+## Overview
 
 This document defines the interoperability framework for the Criminal Record Management System (CRMS) across multiple African countries. As a pan-African Digital Public Good, CRMS is designed to enable secure, privacy-compliant cross-border collaboration while respecting each country's sovereignty and legal frameworks.
 
-### 1.1 Interoperability Goals
+### Interoperability Goals
 
 1. **Cross-Border Coordination** - Enable law enforcement agencies to coordinate across national boundaries
 2. **Data Exchange** - Facilitate secure sharing of criminal records, alerts, and case information
@@ -18,7 +12,7 @@ This document defines the interoperability framework for the Criminal Record Man
 4. **Privacy Compliance** - Adhere to GDPR, Malabo Convention, and local data protection laws
 5. **Flexibility** - Support varying levels of integration based on bilateral agreements
 
-### 1.2 Scope
+### Scope
 
 This framework covers:
 - Cross-border data exchange protocols
@@ -30,9 +24,9 @@ This framework covers:
 
 ---
 
-## 2. Architecture Overview
+## Architecture Overview
 
-### 2.1 Deployment Model
+### Deployment Model
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -60,7 +54,7 @@ This framework covers:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Integration Patterns
+### Integration Patterns
 
 CRMS supports three integration patterns:
 
@@ -80,41 +74,41 @@ CRMS supports three integration patterns:
 
 ---
 
-## 3. Cross-Border Data Exchange
+## Cross-Border Data Exchange
 
-### 3.1 Exchangeable Data Types
+### Exchangeable Data Types
 
-#### 3.1.1 Wanted Persons
+#### Wanted Persons
 - **Use Case:** Share information about wanted criminals across borders
 - **Data Shared:** Name, aliases, charges, photo, danger level, NIN (if available)
 - **Privacy Level:** High - Publicly shareable within law enforcement
 - **API Endpoint:** `POST /api/interop/wanted-persons/broadcast`
 
-#### 3.1.2 Amber Alerts
+#### Amber Alerts
 - **Use Case:** Cross-border missing children alerts
 - **Data Shared:** Child's details, last seen location, contact information
 - **Privacy Level:** High - Can be shared with public
 - **API Endpoint:** `POST /api/interop/amber-alerts/broadcast`
 
-#### 3.1.3 Background Checks
+#### Background Checks
 - **Use Case:** Verify criminal records for cross-border employment, visa, etc.
 - **Data Shared:** Record exists (yes/no), conviction details (with consent)
 - **Privacy Level:** Very High - Requires explicit consent and legal basis
 - **API Endpoint:** `POST /api/interop/background-checks/query`
 
-#### 3.1.4 Case Coordination
+#### Case Coordination
 - **Use Case:** Link cases involving suspects/victims from multiple countries
 - **Data Shared:** Case metadata, suspect/victim information, coordination contact
 - **Privacy Level:** High - Restricted to authorized officers only
 - **API Endpoint:** `POST /api/interop/cases/coordinate`
 
-#### 3.1.5 Evidence Sharing
+#### Evidence Sharing
 - **Use Case:** Share digital evidence for cross-border investigations
 - **Data Shared:** Evidence metadata, encrypted files, chain of custody
 - **Privacy Level:** Very High - Requires judicial authorization
 - **API Endpoint:** `POST /api/interop/evidence/share`
 
-### 3.2 Data Exchange Principles
+### Data Exchange Principles
 
 1. **Minimum Necessary** - Only share data essential for the request
 2. **Explicit Consent** - Obtain consent where legally required (background checks)
@@ -125,9 +119,9 @@ CRMS supports three integration patterns:
 
 ---
 
-## 4. API Standards
+## API Standards
 
-### 4.1 RESTful API Design
+### RESTful API Design
 
 All inter-country APIs follow REST principles:
 
@@ -136,7 +130,7 @@ All inter-country APIs follow REST principles:
 - **Content Type:** `application/json`
 - **Versioning:** URL-based (`/v1/`, `/v2/`)
 
-### 4.2 Common Headers
+### Common Headers
 
 All cross-border API requests must include:
 
@@ -149,7 +143,7 @@ X-Request-Timestamp: ISO_8601_TIMESTAMP
 X-Request-Signature: HMAC_SHA256_SIGNATURE
 ```
 
-### 4.3 Standard Response Format
+### Standard Response Format
 
 ```json
 {
@@ -167,7 +161,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 }
 ```
 
-### 4.4 Error Codes
+### Error Codes
 
 | Code | Description |
 |------|-------------|
@@ -181,9 +175,9 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 
 ---
 
-## 5. Data Format Specifications
+## Data Format Specifications
 
-### 5.1 Person Data Exchange Format
+### Person Data Exchange Format
 
 **Standard:** JSON Schema-based
 
@@ -215,7 +209,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 }
 ```
 
-### 5.2 Wanted Person Broadcast Format
+### Wanted Person Broadcast Format
 
 ```json
 {
@@ -250,7 +244,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 }
 ```
 
-### 5.3 Amber Alert Format
+### Amber Alert Format
 
 ```json
 {
@@ -286,7 +280,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 }
 ```
 
-### 5.4 Background Check Request Format
+### Background Check Request Format
 
 ```json
 {
@@ -319,7 +313,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 }
 ```
 
-### 5.5 Background Check Response Format
+### Background Check Response Format
 
 ```json
 {
@@ -347,23 +341,23 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
 
 ---
 
-## 6. Security & Authentication
+## Security & Authentication
 
-### 6.1 Authentication Mechanisms
+### Authentication Mechanisms
 
-#### 6.1.1 Mutual TLS (mTLS)
+#### Mutual TLS (mTLS)
 - **Primary Method:** Certificate-based authentication
 - **Certificate Authority:** Regional or continental PKI
 - **Certificate Format:** X.509v3
 - **Key Length:** RSA 4096-bit or ECC P-384
 
-#### 6.1.2 API Keys
+#### API Keys
 - **Secondary Layer:** Combined with mTLS
 - **Key Format:** UUID v4
 - **Rotation:** Every 90 days
 - **Storage:** Encrypted at rest
 
-#### 6.1.3 JWT Tokens
+#### JWT Tokens
 - **Use:** Request authorization
 - **Algorithm:** RS256
 - **Expiry:** 15 minutes
@@ -379,7 +373,7 @@ X-Request-Signature: HMAC_SHA256_SIGNATURE
   }
   ```
 
-### 6.2 Request Signing
+### Request Signing
 
 All requests must be signed using HMAC-SHA256:
 
@@ -393,27 +387,27 @@ Signature = HMAC-SHA256(
 )
 ```
 
-### 6.3 Data Encryption
+### Data Encryption
 
-#### 6.3.1 In Transit
+#### In Transit
 - **Protocol:** TLS 1.3
 - **Cipher Suites:**
   - TLS_AES_256_GCM_SHA384
   - TLS_CHACHA20_POLY1305_SHA256
 
-#### 6.3.2 At Rest (Shared Data)
+#### At Rest (Shared Data)
 - **Algorithm:** AES-256-GCM
 - **Key Management:** Per-country keys, exchanged via secure channels
 - **Key Rotation:** Annual
 
-#### 6.3.3 Sensitive Fields Encryption
+#### Sensitive Fields Encryption
 Certain fields must be encrypted even within JSON payloads:
 - National ID numbers
 - Addresses
 - Phone numbers
 - Biometric data
 
-### 6.4 IP Whitelisting
+### IP Whitelisting
 
 Countries can optionally implement IP whitelisting:
 - Maintain list of authorized IP ranges per partner country
@@ -422,18 +416,18 @@ Countries can optionally implement IP whitelisting:
 
 ---
 
-## 7. Privacy & Legal Compliance
+## Privacy & Legal Compliance
 
-### 7.1 Legal Framework
+### Legal Framework
 
-#### 7.1.1 Applicable Laws & Treaties
+#### Applicable Laws & Treaties
 - **GDPR** (EU General Data Protection Regulation) - Standard for data protection
 - **Malabo Convention** (African Union Convention on Cyber Security)
 - **Bilateral MLATs** (Mutual Legal Assistance Treaties)
 - **Regional Agreements** (ECOWAS, EAC, SADC data sharing protocols)
 - **Interpol Framework** for international police cooperation
 
-#### 7.1.2 Legal Basis for Data Sharing
+#### Legal Basis for Data Sharing
 
 | Data Type | Legal Basis Required |
 |-----------|---------------------|
@@ -443,31 +437,31 @@ Countries can optionally implement IP whitelisting:
 | Case Coordination | MLAT or judicial cooperation agreement |
 | Evidence Sharing | Court order + MLAT |
 
-### 7.2 Data Subject Rights
+### Data Subject Rights
 
-#### 7.2.1 Right to Know
+#### Right to Know
 - Data subjects can request disclosure of cross-border data sharing
 - Response time: 30 days
 - Exceptions: Active investigations
 
-#### 7.2.2 Right to Rectification
+#### Right to Rectification
 - Incorrect data must be corrected across all sharing countries
 - Notification mechanism required
 
-#### 7.2.3 Right to Erasure
+#### Right to Erasure
 - Honored when legally permissible
 - Some records (convictions) may have mandatory retention periods
 
-### 7.3 Cross-Border Data Transfer Safeguards
+### Cross-Border Data Transfer Safeguards
 
-#### 7.3.1 Standard Contractual Clauses
+#### Standard Contractual Clauses
 Countries without adequacy decisions must use Standard Contractual Clauses (SCCs) modeled on EU SCCs:
 - Data exporter obligations
 - Data importer obligations
 - Data subject rights
 - Liability provisions
 
-#### 7.3.2 Data Processing Agreements
+#### Data Processing Agreements
 Formal agreements must specify:
 - Purpose limitation
 - Data retention periods
@@ -475,7 +469,7 @@ Formal agreements must specify:
 - Sub-processing restrictions
 - Breach notification procedures
 
-### 7.4 Consent Management
+### Consent Management
 
 For background checks requiring consent:
 - **Consent Format:** Written, informed, freely given
@@ -485,9 +479,9 @@ For background checks requiring consent:
 
 ---
 
-## 8. National ID System Mapping
+## National ID System Mapping
 
-### 8.1 Challenge
+### Challenge
 
 Different countries use different national ID systems:
 - Sierra Leone: NIN
@@ -496,9 +490,9 @@ Different countries use different national ID systems:
 - Ghana: Ghana Card Number
 - South Africa: ID Number
 
-### 8.2 Solution: Federated Identity Approach
+### Solution: Federated Identity Approach
 
-#### 8.2.1 ID Schema
+#### ID Schema
 
 ```json
 {
@@ -512,7 +506,7 @@ Different countries use different national ID systems:
 }
 ```
 
-#### 8.2.2 Cross-Reference Table
+#### Cross-Reference Table
 
 Each CRMS instance maintains an optional cross-reference table for persons with multiple IDs:
 
@@ -530,7 +524,7 @@ CREATE TABLE national_id_cross_reference (
 );
 ```
 
-#### 8.2.3 Matching Algorithms
+#### Matching Algorithms
 
 When searching across borders without exact ID match, use fuzzy matching:
 - **Name matching:** Levenshtein distance, soundex
@@ -540,11 +534,11 @@ When searching across borders without exact ID match, use fuzzy matching:
 
 ---
 
-## 9. Alert Broadcasting
+## Alert Broadcasting
 
-### 9.1 Wanted Person Broadcasting
+### Wanted Person Broadcasting
 
-#### 9.1.1 Workflow
+#### Workflow
 
 1. **Issuance** - Country A issues wanted notice
 2. **Validation** - CRMS validates required fields
@@ -553,7 +547,7 @@ When searching across borders without exact ID match, use fuzzy matching:
 5. **Publication** - Countries publish per their policies
 6. **Updates** - Broadcast status changes (captured, expired)
 
-#### 9.1.2 API Endpoint
+#### API Endpoint
 
 **POST** `/api/interop/v1/wanted-persons/broadcast`
 
@@ -584,13 +578,13 @@ When searching across borders without exact ID match, use fuzzy matching:
 }
 ```
 
-#### 9.1.3 Receiving Broadcast
+#### Receiving Broadcast
 
 **Webhook:** `POST /api/interop/v1/wanted-persons/receive`
 
 Countries implement this endpoint to receive broadcasts.
 
-### 9.2 Amber Alert Broadcasting
+### Amber Alert Broadcasting
 
 Similar workflow to wanted persons, but with:
 - **Higher Priority:** Immediate distribution
@@ -600,16 +594,16 @@ Similar workflow to wanted persons, but with:
 
 ---
 
-## 10. Case Coordination
+## Case Coordination
 
-### 10.1 Cross-Border Case Linking
+### Cross-Border Case Linking
 
-#### 10.1.1 Scenario
+#### Scenario
 - Country A is investigating a case involving a suspect from Country B
 - Country B has an open case on the same suspect
 - Both countries want to coordinate
 
-#### 10.1.2 Coordination Request
+#### Coordination Request
 
 **POST** `/api/interop/v1/cases/coordinate`
 
@@ -637,7 +631,7 @@ Similar workflow to wanted persons, but with:
 }
 ```
 
-#### 10.1.3 Response
+#### Response
 
 ```json
 {
@@ -656,7 +650,7 @@ Similar workflow to wanted persons, but with:
 }
 ```
 
-### 10.2 Secure Communication Channel
+### Secure Communication Channel
 
 For ongoing coordination, CRMS provides:
 - **Encrypted Messaging:** End-to-end encrypted chat
@@ -666,9 +660,9 @@ For ongoing coordination, CRMS provides:
 
 ---
 
-## 11. Evidence Sharing
+## Evidence Sharing
 
-### 11.1 Legal Requirements
+### Legal Requirements
 
 Evidence sharing is the most sensitive interoperability function. Requirements:
 - **Judicial Authorization:** Court order or magistrate approval
@@ -677,7 +671,7 @@ Evidence sharing is the most sensitive interoperability function. Requirements:
 - **Integrity:** Cryptographic hashes to verify tampering
 - **Audit:** Immutable audit trail
 
-### 11.2 Evidence Sharing Workflow
+### Evidence Sharing Workflow
 
 1. **Request** - Country A requests evidence from Country B
 2. **Judicial Review** - Country B's judiciary reviews request
@@ -687,7 +681,7 @@ Evidence sharing is the most sensitive interoperability function. Requirements:
 6. **Receipt Confirmation** - Country A confirms receipt and integrity
 7. **Chain of Custody Update** - Both countries update custody logs
 
-### 11.3 API Endpoint
+### API Endpoint
 
 **POST** `/api/interop/v1/evidence/request`
 
@@ -715,7 +709,7 @@ Evidence sharing is the most sensitive interoperability function. Requirements:
 }
 ```
 
-### 11.4 Evidence Transfer Format
+### Evidence Transfer Format
 
 ```json
 {
@@ -754,9 +748,9 @@ Evidence sharing is the most sensitive interoperability function. Requirements:
 
 ---
 
-## 12. Integration Patterns & Best Practices
+## Integration Patterns & Best Practices
 
-### 12.1 Synchronous vs Asynchronous
+### Synchronous vs Asynchronous
 
 | Operation | Pattern | Reason |
 |-----------|---------|--------|
@@ -766,7 +760,7 @@ Evidence sharing is the most sensitive interoperability function. Requirements:
 | Case Coordination Request | Synchronous | Need immediate confirmation |
 | Evidence Transfer | Asynchronous | Large files, judicial delays |
 
-### 12.2 Webhook Pattern
+### Webhook Pattern
 
 Countries should implement webhooks for asynchronous notifications:
 
@@ -786,7 +780,7 @@ Countries should implement webhooks for asynchronous notifications:
 }
 ```
 
-### 12.3 Rate Limiting
+### Rate Limiting
 
 To prevent abuse and ensure fair resource usage:
 
@@ -799,7 +793,7 @@ To prevent abuse and ensure fair resource usage:
 
 Rate limits can be adjusted via bilateral agreements.
 
-### 12.4 Retry Logic
+### Retry Logic
 
 For failed requests, implement exponential backoff:
 - **Initial Retry:** 1 second
@@ -807,7 +801,7 @@ For failed requests, implement exponential backoff:
 - **Backoff Multiplier:** 2x
 - **Max Backoff:** 60 seconds
 
-### 12.5 Circuit Breaker
+### Circuit Breaker
 
 Implement circuit breaker pattern:
 - **Failure Threshold:** 50% errors over 1 minute
@@ -816,9 +810,9 @@ Implement circuit breaker pattern:
 
 ---
 
-## 13. Regional Hub Implementation
+## Regional Hub Implementation
 
-### 13.1 Hub Architecture
+### Hub Architecture
 
 Regional organizations (ECOWAS, EAC, SADC) can operate central hubs:
 
@@ -848,7 +842,7 @@ Regional organizations (ECOWAS, EAC, SADC) can operate central hubs:
 └─────────────────────────────────────────┘
 ```
 
-### 13.2 Hub Benefits
+### Hub Benefits
 
 1. **Simplified Connectivity** - One connection per country instead of N*(N-1)/2
 2. **Regional Search** - Search for wanted persons across all member states
@@ -856,7 +850,7 @@ Regional organizations (ECOWAS, EAC, SADC) can operate central hubs:
 4. **Standardization** - Enforce common standards
 5. **Cost Sharing** - Shared infrastructure costs
 
-### 13.3 Hub Responsibilities
+### Hub Responsibilities
 
 - **Message Routing:** Forward requests to appropriate countries
 - **Caching:** Cache frequently accessed data (with TTL)
@@ -866,23 +860,23 @@ Regional organizations (ECOWAS, EAC, SADC) can operate central hubs:
 
 ---
 
-## 14. Versioning & Compatibility
+## Versioning & Compatibility
 
-### 14.1 API Versioning
+### API Versioning
 
 - **Strategy:** URL-based versioning (`/v1/`, `/v2/`)
 - **Support Period:** Each version supported for minimum 24 months
 - **Deprecation Notice:** 12 months before end-of-life
 - **Breaking Changes:** Only in major versions
 
-### 14.2 Schema Versioning
+### Schema Versioning
 
 JSON schemas use semantic versioning:
 - **Major:** Breaking changes
 - **Minor:** Backward-compatible additions
 - **Patch:** Corrections, clarifications
 
-### 14.3 Backward Compatibility
+### Backward Compatibility
 
 When upgrading, ensure:
 - Old clients can still communicate (content negotiation)
@@ -890,7 +884,7 @@ When upgrading, ensure:
 - Deprecated fields continue to work
 - Clear migration guides provided
 
-### 14.4 Feature Negotiation
+### Feature Negotiation
 
 Countries can advertise supported features:
 
@@ -922,9 +916,9 @@ Countries can advertise supported features:
 
 ---
 
-## 15. Monitoring & Observability
+## Monitoring & Observability
 
-### 15.1 Health Check Endpoint
+### Health Check Endpoint
 
 **GET** `/api/interop/v1/health`
 
@@ -941,7 +935,7 @@ Countries can advertise supported features:
 }
 ```
 
-### 15.2 Metrics to Track
+### Metrics to Track
 
 - **Request Volume:** Requests per minute/hour by endpoint
 - **Response Time:** P50, P95, P99 latency
@@ -950,7 +944,7 @@ Countries can advertise supported features:
 - **Data Volume:** Bytes transferred per country
 - **Active Connections:** Current mTLS connections
 
-### 15.3 Audit Logging
+### Audit Logging
 
 All interoperability operations must be logged:
 
@@ -970,7 +964,7 @@ All interoperability operations must be logged:
 }
 ```
 
-### 15.4 Incident Response
+### Incident Response
 
 For interoperability incidents:
 1. **Detection** - Monitoring alerts detect issue
@@ -981,9 +975,9 @@ For interoperability incidents:
 
 ---
 
-## 16. Testing & Validation
+## Testing & Validation
 
-### 16.1 Integration Testing
+### Integration Testing
 
 Before going live, countries must complete integration testing:
 
@@ -995,14 +989,14 @@ Before going live, countries must complete integration testing:
 6. **Rate Limiting** - Verify rate limits work
 7. **Large Data Transfer** - Test evidence file transfer
 
-### 16.2 Test Environment
+### Test Environment
 
 Maintain separate test environments:
 - **Test Domain:** `test.crms.{country}.gov`
 - **Test Data:** Synthetic, non-PII data
 - **Test Certificates:** Separate PKI for testing
 
-### 16.3 Compliance Validation
+### Compliance Validation
 
 Before production:
 - **Security Audit** - Third-party security review
@@ -1012,9 +1006,9 @@ Before production:
 
 ---
 
-## 17. Governance & Coordination
+## Governance & Coordination
 
-### 17.1 Interoperability Working Group
+### Interoperability Working Group
 
 Establish a pan-African CRMS Interoperability Working Group:
 - **Members:** One representative per participating country
@@ -1025,7 +1019,7 @@ Establish a pan-African CRMS Interoperability Working Group:
   - Best practice sharing
   - Capacity building
 
-### 17.2 Change Management
+### Change Management
 
 For changes to interoperability standards:
 1. **Proposal** - Any country can propose changes
@@ -1034,7 +1028,7 @@ For changes to interoperability standards:
 4. **Implementation Period** - Minimum 6 months for adoption
 5. **Monitoring** - Track adoption rates
 
-### 17.3 Dispute Resolution
+### Dispute Resolution
 
 For disagreements between countries:
 1. **Bilateral Discussion** - Direct negotiation
@@ -1044,9 +1038,9 @@ For disagreements between countries:
 
 ---
 
-## 18. Implementation Checklist
+## Implementation Checklist
 
-### 18.1 Technical Prerequisites
+### Technical Prerequisites
 
 - [ ] CRMS instance deployed and operational
 - [ ] Public IP address or domain name
@@ -1056,7 +1050,7 @@ For disagreements between countries:
 - [ ] Firewall rules updated
 - [ ] Monitoring and logging setup
 
-### 18.2 Legal Prerequisites
+### Legal Prerequisites
 
 - [ ] Data Protection Impact Assessment completed
 - [ ] Bilateral data sharing agreements signed
@@ -1064,7 +1058,7 @@ For disagreements between countries:
 - [ ] Privacy policy updated
 - [ ] Audit framework established
 
-### 18.3 Operational Prerequisites
+### Operational Prerequisites
 
 - [ ] Staff trained on interoperability features
 - [ ] Incident response plan created
@@ -1075,9 +1069,9 @@ For disagreements between countries:
 
 ---
 
-## 19. Future Enhancements
+## Future Enhancements
 
-### 19.1 Planned Features
+### Planned Features
 
 1. **Real-Time Sync** - Continuous synchronization of wanted persons
 2. **Blockchain for Audit Trail** - Immutable, distributed audit logs
@@ -1086,7 +1080,7 @@ For disagreements between countries:
 5. **Biometric Sharing** - Standardized fingerprint/facial recognition APIs
 6. **Predictive Analytics** - Cross-border crime trend analysis
 
-### 19.2 Research Areas
+### Research Areas
 
 - Zero-Knowledge Proofs for privacy-preserving queries
 - Federated Learning for collaborative ML models
@@ -1095,11 +1089,11 @@ For disagreements between countries:
 
 ---
 
-## 20. Conclusion
+## Conclusion
 
 This interoperability framework enables the Criminal Record Management System to fulfill its vision as a pan-African Digital Public Good. By providing secure, privacy-compliant mechanisms for cross-border collaboration, CRMS empowers law enforcement agencies across Africa to work together effectively while respecting each nation's sovereignty and legal frameworks.
 
-### 20.1 Key Principles
+### Key Principles
 
 1. **Sovereignty First** - Each country controls their data
 2. **Privacy by Design** - Built-in privacy protections
@@ -1107,7 +1101,7 @@ This interoperability framework enables the Criminal Record Management System to
 4. **Standards-Based** - Open, documented standards
 5. **Incrementally Adoptable** - Countries join at their own pace
 
-### 20.2 Call to Action
+### Call to Action
 
 Countries interested in joining the CRMS network should:
 1. Review this interoperability framework

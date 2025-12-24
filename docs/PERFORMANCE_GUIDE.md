@@ -1,22 +1,6 @@
-# CRMS Performance Optimization Guide
+# Performance Optimization Guide
 
-**Pan-African Digital Public Good**
-**Optimized for 2G/3G Networks Across Africa**
-
----
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Performance Targets](#performance-targets)
-3. [Web Vitals](#web-vitals)
-4. [Caching Strategies](#caching-strategies)
-5. [Bundle Optimization](#bundle-optimization)
-6. [Network Optimization](#network-optimization)
-7. [Storage Management](#storage-management)
-8. [Monitoring & Debugging](#monitoring--debugging)
-9. [Best Practices](#best-practices)
-10. [Troubleshooting](#troubleshooting)
+CRMS is optimized for 2G/3G networks common across Africa.
 
 ---
 

@@ -1,17 +1,6 @@
----
-title: Criminal Record Management System (CRMS) – Pan-African Digital Public Good
----
-
 # Criminal Record Management System (CRMS) – Requirements Specification
 
-## Document Version
-- **Version:** 2.0
-- **Date:** 2025-10-28
-- **Scope:** Pan-African Digital Public Good (Pilot: Sierra Leone)
-
----
-
-## 1. Overview
+## Overview
 
 The **Criminal Record Management System (CRMS)** is a **pan-African Digital Public Good (DPG)** designed to help law enforcement agencies across the African continent:
 
@@ -24,7 +13,7 @@ The **Criminal Record Management System (CRMS)** is a **pan-African Digital Publ
 
 The system is built with **Next.js (frontend + backend APIs)**, **PostgreSQL (database)**, and **Prisma ORM**, ensuring scalability, security, and modern developer experience.
 
-### 1.1 Pan-African Design Principle
+### Pan-African Design Principle
 
 CRMS is designed as a **reusable, configurable platform** that any African country can adopt and customize without forking the codebase. The **Sierra Leone Police Force** serves as the pilot implementation and reference deployment.
 
@@ -38,7 +27,7 @@ CRMS is designed as a **reusable, configurable platform** that any African count
 
 ---
 
-## 2. Objectives
+## Objectives
 
 1. **Centralize** all criminal records in a secure database
 2. **Standardize** how police stations record complaints, evidence, and cases across different countries
@@ -50,13 +39,13 @@ CRMS is designed as a **reusable, configurable platform** that any African count
 
 ---
 
-## 3. Multi-Country Adaptability
+## Multi-Country Adaptability
 
-### 3.1 Configurable Components
+### Configurable Components
 
 CRMS supports country-specific configurations in the following areas:
 
-#### 3.1.1 National Identification Systems
+#### National Identification Systems
 The system uses a **federated identity model** that supports any national ID system:
 
 - **Sierra Leone:** NIN (National Identification Number)
@@ -69,7 +58,7 @@ The system uses a **federated identity model** that supports any national ID sys
 
 **Implementation:** The `Person` entity includes a flexible `nationalId` field with `type` and `countryCode` attributes to support any ID system.
 
-#### 3.1.2 Legal & Justice System Frameworks
+#### Legal & Justice System Frameworks
 Different countries have different:
 - **Case lifecycle stages** (e.g., investigation, prosecution, court procedures)
 - **Criminal offense classifications** (based on national penal codes)
@@ -78,7 +67,7 @@ Different countries have different:
 
 **Implementation:** Case workflows, offense taxonomies, and retention policies are stored in configuration files that can be customized per deployment.
 
-#### 3.1.3 Multi-Language Support
+#### Multi-Language Support
 CRMS includes built-in internationalization (i18n):
 - **English** (default)
 - **French** (Francophone Africa)
@@ -88,7 +77,7 @@ CRMS includes built-in internationalization (i18n):
 
 **Implementation:** All UI strings, USSD menus, and API responses use i18n libraries with language packs.
 
-#### 3.1.4 Telecom Integration
+#### Telecom Integration
 Each country has different telecom providers for USSD/SMS:
 - **Sierra Leone:** Orange, Africell
 - **Ghana:** MTN, Vodafone, AirtelTigo
@@ -97,7 +86,7 @@ Each country has different telecom providers for USSD/SMS:
 
 **Implementation:** Telecom gateway configurations are externalized, with adapters for different USSD/SMS APIs.
 
-#### 3.1.5 Police Structure
+#### Police Structure
 Police organizational structures vary by country:
 - **Centralized** (e.g., national police force)
 - **Decentralized** (regional/provincial police)
@@ -105,7 +94,7 @@ Police organizational structures vary by country:
 
 **Implementation:** The `Station` hierarchy supports multiple organizational models with configurable levels (national/regional/district/station).
 
-#### 3.1.6 Currency & Units
+#### Currency & Units
 Different countries use different currencies and measurement systems:
 - **Bail amounts, fines:** Country-specific currency
 - **Addresses:** Different postal systems
@@ -113,7 +102,7 @@ Different countries use different currencies and measurement systems:
 
 **Implementation:** Locale-aware formatting with country configuration files.
 
-### 3.2 Deployment Models
+### Deployment Models
 
 CRMS supports three deployment models:
 
@@ -123,9 +112,9 @@ CRMS supports three deployment models:
 
 ---
 
-## 4. Key Features
+## Key Features
 
-### 4.1 User & Role Management
+### User & Role Management
 
 **Role-Based Access Control (RBAC)** with six standard roles:
 
@@ -146,7 +135,7 @@ CRMS supports three deployment models:
 - Badge numbering schemes differ by country (configurable format)
 - Some countries may require additional authentication factors (e.g., biometrics)
 
-### 4.2 Case Management
+### Case Management
 
 - Register complaints/FIRs (First Information Reports)
 - Track suspects, victims, witnesses (linked to national ID if available)
@@ -159,7 +148,7 @@ CRMS supports three deployment models:
 - Offense classifications mapped to national penal codes
 - Court integration varies by judicial system
 
-### 4.3 Person / Criminal Records
+### Person / Criminal Records
 
 - **Master Person Index** keyed by national ID (type varies by country)
 - Store aliases, biometrics (hashed), known associates
@@ -190,14 +179,14 @@ model Person {
 }
 ```
 
-### 4.4 Evidence Management
+### Evidence Management
 
 - Upload digital evidence (photos, docs, videos) → encrypted S3-compatible storage
 - Generate **QR/barcodes** for physical evidence
 - Track full chain-of-custody with audit trail
 - Support for various evidence types (forensic, documentary, physical)
 
-### 4.5 Background Checks
+### Background Checks
 
 **Officer-facing:**
 - Detailed results with full criminal history
@@ -211,7 +200,7 @@ model Person {
 - Some countries may require different disclosure levels
 - Retention periods for background check records vary by jurisdiction
 
-### 4.6 Alerts & Notices
+### Alerts & Notices
 
 **Amber Alerts:**
 - Broadcast missing child information via SMS/USSD
@@ -221,7 +210,7 @@ model Person {
 - Publish to dashboard + optional citizen access
 - Support for Interpol Red Notices (international wanted persons)
 
-### 4.7 USSD Support
+### USSD Support
 
 - Integrated via telecom aggregators (country-specific providers)
 - Next.js API routes handle **USSD callbacks**
@@ -237,7 +226,7 @@ model Person {
 **Ghana:** `*920*77#` (MTN) – *configured per country*
 **Nigeria:** `*737*77#` (example) – *configured per telecom*
 
-### 4.8 Audit & Reporting
+### Audit & Reporting
 
 - **Immutable audit logs** of all actions (who did what, when)
 - Officer activity tracking
@@ -245,7 +234,7 @@ model Person {
 - National crime statistics dashboards
 - Compliance reports for data protection authorities
 
-### 4.9 Cross-Border Interoperability
+### Cross-Border Interoperability
 
 CRMS includes APIs for secure cross-border data exchange:
 
@@ -261,37 +250,37 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 
 ---
 
-## 5. Functional Requirements
+## Functional Requirements
 
-### 5.1 Authentication
+### Authentication
 
 - Badge + PIN login (PIN stored as Argon2 hash)
 - JWT sessions (NextAuth strategy: `jwt`)
 - Short-lived tokens with refresh support
 - Configurable PIN complexity rules per country
 
-### 5.2 Case Entity
+### Case Entity
 
 - Fields: complainant, suspects, victims, evidence list, status
 - Must support linking multiple persons by role (suspect/victim/witness)
 - Support for case transfers between stations
 - Hierarchical case numbering (station/region/national)
 
-### 5.3 Person Entity
+### Person Entity
 
 - National ID (primary identifier – type varies by country)
 - Encrypted fields: addresses, phone numbers, biometrics
 - Support for multiple aliases and identifiers
 - GDPR-compliant data minimization
 
-### 5.4 Evidence Entity
+### Evidence Entity
 
 - QR/barcode identifier (format configurable)
 - Chain-of-custody events (officer, timestamp, action, location)
 - Support for large file uploads (videos, high-res images)
 - Integrity verification (cryptographic hashes)
 
-### 5.5 USSD Flows
+### USSD Flows
 
 **Background Check:**
 - Input national ID → "Clear / Record exists"
@@ -306,7 +295,7 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 **Crime Tips:**
 - Anonymous tip submission
 
-### 5.6 API Integrations
+### API Integrations
 
 - **National ID Registry** (country-specific, future)
 - **SMS/USSD Gateway** (telecom-specific)
@@ -316,9 +305,9 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 
 ---
 
-## 6. Non-Functional Requirements
+## Non-Functional Requirements
 
-### 6.1 Security
+### Security
 
 - End-to-end TLS (minimum TLS 1.3)
 - Encryption at rest (Postgres column-level + storage encryption)
@@ -326,26 +315,26 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 - RBAC with least privilege principle
 - Regular security audits and penetration testing
 
-### 6.2 Availability
+### Availability
 
 - **99.5% uptime SLA** for critical services
 - Offline-first support for station devices (sync when connectivity restored)
 - Graceful degradation (USSD fallback if internet unavailable)
 
-### 6.3 Scalability
+### Scalability
 
 - **Initial:** 50+ stations (pilot country)
 - **Target:** Nationwide deployment with millions of records
 - **Pan-African:** Multi-tenant support for regional deployments
 
-### 6.4 Performance
+### Performance
 
 - Background checks: <10 seconds
 - Case registration: <30 seconds
 - USSD response: <5 seconds
 - Search queries: <2 seconds for person lookup
 
-### 6.5 Compliance
+### Compliance
 
 **International Standards:**
 - **GDPR** (for countries with similar laws)
@@ -360,7 +349,7 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 - **Kenya:** Data Protection Act, 2019
 - **South Africa:** POPIA (Protection of Personal Information Act)
 
-### 6.6 Accessibility
+### Accessibility
 
 - **WCAG 2.1 Level AA** compliance for web interfaces
 - **USSD support** for feature phones (no smartphone required)
@@ -369,7 +358,7 @@ See `docs/INTEROPERABILITY.md` for full technical specifications.
 
 ---
 
-## 7. Data Model (Simplified with Prisma)
+## Data Model
 
 ```prisma
 model Person {
@@ -476,7 +465,7 @@ model Alert {
 
 ---
 
-## 8. Example Next.js API Routes
+## Example API Routes
 
 - `/api/auth/login` → Officer login (badge + PIN)
 - `/api/persons` → Manage persons (CRUD)
@@ -490,7 +479,7 @@ model Alert {
 
 ---
 
-## 9. Implementation Roadmap
+## Implementation Roadmap
 
 ### Phase 1 – MVP (Weeks 1-8)
 - Next.js auth with badge + PIN
@@ -521,7 +510,7 @@ model Alert {
 
 ---
 
-## 10. Risks & Mitigations
+## Risks & Mitigations
 
 | Risk | Mitigation |
 |------|------------|
@@ -535,7 +524,7 @@ model Alert {
 
 ---
 
-## 11. Success Metrics
+## Success Metrics
 
 ### Operational Efficiency
 - **50% faster** case registration compared to paper-based systems
@@ -561,7 +550,7 @@ model Alert {
 
 ---
 
-## 12. Country-Specific Deployment Checklist
+## Country-Specific Deployment Checklist
 
 When deploying CRMS in a new country, complete the following:
 
