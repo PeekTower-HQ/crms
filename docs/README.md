@@ -2,12 +2,14 @@
 
 Welcome to the **Criminal Record Management System (CRMS)** documentation. CRMS is a pan-African Digital Public Good designed for law enforcement agencies across the African continent.
 
+![CRMS Dashboard](images/Dashboard.png)
+
 ## Quick Links
 
 | Getting Started | For Developers | For Deployers |
 |-----------------|----------------|---------------|
 | [Requirements Spec](CRMS_REQUIREMENTS_SPECIFICATION.md) | [Architecture Guide](SERVICE_REPOSITORY_ARCHITECTURE.md) | [Deployment Guide](DEPLOYMENT_CUSTOMIZATION.md) |
-| [Implementation Plan](IMPLEMENTATION_PLAN.md) | [Testing Guide](TESTING_GUIDE.md) | [Country Configuration](COUNTRY_CONFIG_IMPLEMENTATION.md) |
+| [DPG Compliance](DPG_COMPLIANCE.md) | [Testing Guide](TESTING_GUIDE.md) | [Country Configuration](COUNTRY_CONFIG_IMPLEMENTATION.md) |
 
 ## About CRMS
 
@@ -18,6 +20,32 @@ CRMS is a **reusable, configurable open-source platform** that any African count
 - **Role-Based Access Control** - 6-tier permission system
 - **Comprehensive Audit Logging** - Immutable trails for all actions
 - **End-to-End Encryption** - AES-256 for PII at rest
+
+## Core Features
+
+### Authentication
+
+Secure badge + PIN authentication with multi-factor authentication support.
+
+![Login Page](images/Login%20Page.png)
+
+### Case Management
+
+Track investigations from initial report through to prosecution and court proceedings.
+
+![Case Management](images/Cases.png)
+
+### Background Checks
+
+Citizen and officer background verification with appropriate access controls.
+
+![Background Checks](images/BG_check.png)
+
+### Vehicle & Person Records
+
+Comprehensive records management for persons and vehicles involved in cases.
+
+![Vehicle Records](images/vehicle.png)
 
 ## Documentation Sections
 
@@ -34,7 +62,7 @@ Detailed guides for WhatsApp integration, USSD setup, and PWA capabilities.
 Testing guides, security checklists, and performance optimization.
 
 ### DPG Compliance
-Documentation for Digital Public Good submission and compliance.
+How CRMS meets all 9 Digital Public Good indicators.
 
 ## Target Deployment
 

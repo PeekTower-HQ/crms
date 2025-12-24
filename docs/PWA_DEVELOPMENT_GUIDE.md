@@ -1,5 +1,11 @@
 # PWA Development Guide
 
+CRMS includes full Progressive Web App (PWA) support for offline-first operation in low-connectivity environments.
+
+![PWA Interface](images/PWA_1.png)
+
+![PWA Mobile View](images/PWA_2.png)
+
 ## Quick Start
 
 ### Regular Development (Default)
